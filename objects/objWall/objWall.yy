@@ -1,5 +1,8 @@
 {
-  "spriteId": null,
+  "spriteId": {
+    "name": "sprWall",
+    "path": "sprites/sprWall/sprWall.yy",
+  },
   "solid": false,
   "visible": true,
   "spriteMaskId": null,
