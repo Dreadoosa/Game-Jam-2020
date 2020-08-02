@@ -7,11 +7,18 @@ jump = 0;
 jspd = -18;
 jumpStore = 0;
 jumpCharge = 0;
+holdingEnemy = false;
+enemyHeld = undefined;
+
+
+thrustDist = 0;
+charge = 0;
 enum player_states {
 	walking,
 	inair,
 	attacking,
 	thrusting,
+	locked,
 	standing
 }
 state = player_states.standing;
