@@ -1,6 +1,20 @@
 /// @description Insert description here
 // You can write your code in this editor
+timer++;
+if (!place_meeting(x+(knockx),y,objWall)) {
+	x = round(x)
+	x += knockx;
+} else {
+	while (!place_meeting(x+sign(knockx),y,objWall)) {
+	x += sign(knockx);
+	}
+}
+knockx = scrApproachZero(knockx,.5)
 function walking() {
+	if (enemyHeld == undefined && action_script_winding_p()) {
+		state = player_states.windingUp;
+		exit;
+	}
 	if (!action_script_right() && !action_script_left()) {
 		state = player_states.standing;
 		exit;
@@ -45,12 +59,10 @@ function walking() {
 }
 function standing() {
 	spd = 1.5;
-	if (action_script_winding()) {
-		
-	
+	if (enemyHeld == undefined && action_script_winding_p()) {
+		state = player_states.windingUp;
+		exit;
 	}
-	
-	
 	if (action_script_attack() && !enemyHeld) {
 	state = player_states.attacking;
 	exit;
@@ -112,7 +124,11 @@ function playerMove() {
 	}
 }
 function playerDash() {
+	if (spd != 5) {
 	spd = 5;
+	energyGauge -= 10;
+	}
+	
 	if (image_xscale == 1) {
 		if (!place_meeting(x+(spd),y,objWall)) {
 			x = round(x)
@@ -139,9 +155,7 @@ function inAir() {
 		state = player_states.thrusting;
 		thrustDist = 5;
 		exit;
-		}	
-	
-	
+		}		
 		if (action_script_attack() && enemyHeld != undefined) {
 		state = player_states.chucking;
 		exit;
@@ -175,7 +189,6 @@ function inAir() {
 			if (grav < 9) {
 			grav += .1;
 			}
-			log("HERE")
 		}
 		
 		
@@ -211,7 +224,7 @@ function inAir() {
 }
 function attack() {
 	playerMove();
-	switch (charge) {
+	switch (gearCharge) {
 			case 0:
 				var hb = instance_create_layer(x+32*image_xscale,y,"Instances_1",objHitbox);
 				hb.sprite_index = sprSlash
@@ -224,6 +237,22 @@ function attack() {
 				} else {
 					state = player_states.standing
 				}
+				energyGauge -= 1;
+				exit;	
+			break;
+			case 1:
+				var hb = instance_create_layer(x+32*image_xscale,y,"Instances_1",objHitbox);
+				hb.sprite_index = sprSlash
+				hb.hitFrame = 4;
+				hb.force = 8;
+				hb.image_speed = 2;
+				hb.dir = image_xscale;
+				if (action_script_left() || action_script_right()) {
+					state = player_states.walking
+				} else {
+					state = player_states.standing
+				}
+				energyGauge -= 1;
 				exit;	
 			break;
 		}
@@ -303,6 +332,13 @@ function chucking() {
 			jump = -18;
 		} else {
 			enemyHeld.knockx = 7 * image_xscale;
+			if (!place_meeting(x,y+1,objWall)) {
+			knockx = 7 * -image_xscale;
+			jump = -9
+			} else {
+			knockx = 4 * -image_xscale;
+			}
+			
 			enemyHeld.knocky = -5;
 			enemyHeld.locked = false;
 			enemyHeld.carried = false;
@@ -319,14 +355,69 @@ function chucking() {
 		}
 		exit;
 	}
-}	
-	
+}		
 function windingUp() {
-
-
-
-
-
+	if (action_script_left()) {
+	image_xscale = -1;
+	}
+	if (action_script_right()) {
+	image_xscale = 1;
+	}
+	if (action_script_winding()) {
+		if (action_script_thrust()) {
+			gearOne += 5;
+			gearTwo = 0;
+		}
+		if (action_script_attack()) {
+			gearTwo += 5;
+			gearOne = 0;
+		}
+		if (gearTwo == 100) {
+		energyGauge = 120;
+		gearTwo = 0;
+		gearOne = 0;
+		state = player_states.standing;
+		exit;
+		}		
+		if (gearOne = 100) {
+		gearCharge++;
+		gearTwo = 0;
+		gearOne = 0;
+		state = player_states.standing;
+		exit;		
+		}
+	} else {
+		if (gearOne > 0) {
+		gearOne--;
+		}
+		if (gearTwo > 0) {
+		gearTwo--;
+		}
+	}
+	
+	exit;
+}
+function downed() {
+	if (downGauge < 150 && (action_script_right_p() || action_script_left_p())) {
+		downGauge += 5;
+	}
+	if (downGauge == 100) {
+		energyGauge = 150;
+		downGauge = 0;
+		state = player_states.standing;
+		exit;
+	}
+	if (!place_meeting(x,y+grav,objWall)) {
+		y+=grav;
+	} else {
+		while (!place_meeting(x,y+sign(grav),objWall)) {
+		y++;
+		}
+		spd = 1.5;
+		grav = 4;
+		exit;
+	}	
+	
 }
 switch (state) {
 	case player_states.walking:    walking();    break;
@@ -336,7 +427,15 @@ switch (state) {
 	case player_states.thrusting:  thrusting();  break;
 	case player_states.locked:     locking();    break;
 	case player_states.chucking:   chucking();   break;
-	case player_states.windingUp:  windingUp();   break;
+	case player_states.windingUp:  windingUp();  break;
+	case player_states.downed:	   downed();     break;
+}
+if (timer % 16 == 0) {
+	if (energyGauge > 0) {
+	energyGauge--
+	} else {
+	state = player_states.downed
+	}
 }
 objKey.x = x + 12* -image_xscale;
 objKey.y = y;

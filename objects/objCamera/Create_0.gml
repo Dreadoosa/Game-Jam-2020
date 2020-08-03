@@ -5,6 +5,7 @@
 view_width = 640
 view_height = 360
 window_scale = 1;
+room_speed = 60;
 
 dir = 1;
 window_set_size(view_width*window_scale,view_height*window_scale);
