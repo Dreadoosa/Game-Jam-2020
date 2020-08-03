@@ -17,6 +17,7 @@ enum player_states {
 	walking,
 	inair,
 	attacking,
+	chucking,
 	thrusting,
 	locked,
 	standing
