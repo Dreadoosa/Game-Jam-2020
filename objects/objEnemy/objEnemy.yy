@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "sprEnemy",
-    "path": "sprites/sprEnemy/sprEnemy.yy",
+    "name": "sprCrawlerAttack",
+    "path": "sprites/sprCrawlerAttack/sprCrawlerAttack.yy",
   },
   "solid": false,
   "visible": true,

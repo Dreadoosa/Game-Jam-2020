@@ -9,6 +9,7 @@ knocky = scrApproachZero(knocky,.5)
 }
 knockx = scrApproachZero(knockx,.1)
 knocky = scrApproachZero(knocky,.1)
+
 if (locked && !carried) {
 	if (capGate == 4 && action_script_attack()) {
 		instance_destroy();

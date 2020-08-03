@@ -15,3 +15,4 @@ capGate = 0;
 gateOneCap = 30;
 gateTwoCap = 60;
 gateThreeCap = 90;
+image_speed = .25;

@@ -18,6 +18,7 @@ gearCharge = 0;
 gearOne = 0;
 gearTwo = 0;
 thrustDist = 0;
+
 charge = 0;
 global.gpad = 0;
 dashDirection = 0;
@@ -29,10 +30,6 @@ for (var i = 0; i < 12; i++) {
 	log("gpad found")
 	}
 }
-
-
-
-
 enum player_states {
 	walking,
 	inair,
@@ -45,5 +42,7 @@ enum player_states {
 	standing
 }
 state = player_states.standing;
+previousState = player_states.standing
+timeInState = 0;
 #macro log show_debug_message
 instance_create_layer(x,y,"Instances_1",objKey)
