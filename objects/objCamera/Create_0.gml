@@ -4,7 +4,7 @@
 // You can write your code in this editor
 view_width = 640
 view_height = 360
-window_scale = 1;
+window_scale = 2;
 room_speed = 60;
 
 dir = 1;

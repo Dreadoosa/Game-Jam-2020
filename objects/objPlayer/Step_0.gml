@@ -1,6 +1,8 @@
 /// @description Insert description here
 // You can write your code in this editor
 timer++;
+if (tBuff > 0){tBuff--;}
+if (aBuff > 0){aBuff--;}
 if (!place_meeting(x+(knockx),y,objWall)) {
 	x = round(x)
 	x += knockx;
@@ -14,6 +16,11 @@ function walking() {
 	if (enemyHeld == undefined && action_script_winding_p()) {
 		state = player_states.windingUp;
 		exit;
+	}
+	if (action_script_attack() && enemyHeld == undefined && aBuff == 0) {
+	state = player_states.attacking;
+	aBuff = 30;
+	exit;
 	}
 	if (!action_script_right() && !action_script_left()) {
 		state = player_states.standing;
@@ -33,7 +40,18 @@ function walking() {
 	}
 	if (action_script_thrust() && enemyHeld == undefined) {
 	state = player_states.thrusting;
-	thrustDist = 5;
+	if (action_script_left()) {
+		dashDirection = -1;
+	}
+	if (action_script_right()) {
+		dashDirection = 1;
+	}
+	if (!action_script_right() && !action_script_left()) {
+		dashDirection = image_xscale;
+	}
+	thrustDist = 5 * (gearCharge+1);
+	gearCharge = 0;
+	gearCharge = 0;
 	exit;
 	}
 	playerMove();
@@ -58,13 +76,15 @@ function walking() {
 	}	
 }
 function standing() {
+	sprite_index = sprJunko;
 	spd = 1.5;
 	if (enemyHeld == undefined && action_script_winding_p()) {
 		state = player_states.windingUp;
 		exit;
 	}
-	if (action_script_attack() && !enemyHeld) {
+	if (action_script_attack() && enemyHeld == undefined && aBuff == 0) {
 	state = player_states.attacking;
+	aBuff = 30;
 	exit;
 	}
 	if (action_script_attack() && enemyHeld != undefined) {
@@ -73,7 +93,17 @@ function standing() {
 	}			
 	if (action_script_thrust() && enemyHeld == undefined) {
 	state = player_states.thrusting;
-	thrustDist = 5;
+	if (action_script_left()) {
+		dashDirection = -1;
+	}
+	if (action_script_right()) {
+		dashDirection = 1;
+	}
+	if (!action_script_right() && !action_script_left()) {
+		dashDirection = image_xscale;
+	}
+	thrustDist = 5 * (gearCharge+1);
+	gearCharge = 0;
 	exit;
 	}
 	if (action_script_left() || action_script_right()) {
@@ -99,6 +129,7 @@ function standing() {
 }
 function playerMove() {
 	if (action_script_right()) {
+		sprite_index = sprJunkWalk
 		image_xscale = 1;
 		objKey.image_xscale = 1;
 		if (!place_meeting(x+(spd),y,objWall)) {
@@ -110,7 +141,9 @@ function playerMove() {
 			}
 		}
 	}
+		
 	if (action_script_left()) {
+		sprite_index = sprJunkWalk
 		image_xscale = -1;
 		objKey.image_xscale = -1;
 		if (!place_meeting(x-(spd),y,objWall)) {
@@ -129,7 +162,7 @@ function playerDash() {
 	energyGauge -= 10;
 	}
 	
-	if (image_xscale == 1) {
+	if (dashDirection == 1) {
 		if (!place_meeting(x+(spd),y,objWall)) {
 			x = round(x)
 			x += spd;
@@ -139,7 +172,8 @@ function playerDash() {
 			}
 		}	
 	}
-	if (image_xscale == -1) {
+	
+	if (dashDirection == -1) {
 		if (!place_meeting(x-(spd),y,objWall)) {
 			x = round(x)
 			x -= spd;
@@ -149,19 +183,51 @@ function playerDash() {
 			}
 		}	
 	}
+	
+	if (dashDirection == 0) {
+		if (!place_meeting(x,y+12,objWall)) {
+			y+=12;
+		} else {
+			while (!place_meeting(x,y+sign(12),objWall)) {
+			y++;
+			}
+			if (action_script_left() || action_script_right()) {
+				state = player_states.walking
+			} else {
+			state = player_states.standing
+			}
+			exit;
+		}	
+	}
+	
+	
 }	
 function inAir() {
 		if (action_script_thrust() && enemyHeld == undefined) {
 		state = player_states.thrusting;
-		thrustDist = 5;
+		if (action_script_left()) {
+			dashDirection = -1;
+		}
+		if (action_script_right()) {
+			dashDirection = 1;
+		}
+		if (action_script_down()) {
+			dashDirection = 0;
+		}
+		if (!action_script_right() && !action_script_left()) {
+			dashDirection = image_xscale;
+		}
+		thrustDist = 5 * (gearCharge+1);
+		gearCharge = 0;
 		exit;
 		}		
 		if (action_script_attack() && enemyHeld != undefined) {
 		state = player_states.chucking;
 		exit;
 		}	
-		if (action_script_attack() && enemyHeld == undefined) {
+		if (action_script_attack() && enemyHeld == undefined && aBuff == 0) {
 		state = player_states.attacking;
+		aBuff = 30;
 		exit;
 		}
 		if (jumpStore > 0) {
@@ -275,17 +341,20 @@ function thrusting() {
 			}
 		}
 		playerDash();
-		if (place_meeting(x,y,objEnemy)) {
-			thrustDist = 0;
-			spd = 1.5;
-			state = player_states.locked
-			var inst = instance_place(x,y,objEnemy);
-			inst.x = x + 32*image_xscale;
-			inst.y = y;
-			inst.knockx = 0;
-			inst.knocky = 0;
-			inst.locked = true;
-			inst.carried = false;
+		var inst = instance_place(x,y,objEnemy);
+		if (inst != noone && inst.disabled) {
+			if (place_meeting(x,y,objEnemy)) {
+				thrustDist = 0;
+				spd = 1.5;
+				state = player_states.locked
+				var inst = instance_place(x,y,objEnemy);
+				inst.x = x + 32*image_xscale;
+				inst.y = y;
+				inst.knockx = 0;
+				inst.knocky = 0;
+				inst.locked = true;
+				inst.carried = false;
+			}
 		}
 		playerDash();
 		switch (charge) {
@@ -295,7 +364,7 @@ function thrusting() {
 		}
 }
 function locking() {
-	if (action_script_attack())  {
+	if (action_script_up())  {
 		var en = undefined;
 		with (objEnemy) {
 			if (locked) {
@@ -364,42 +433,28 @@ function windingUp() {
 	image_xscale = 1;
 	}
 	if (action_script_winding()) {
-		if (action_script_thrust()) {
-			gearOne += 5;
-			gearTwo = 0;
-		}
 		if (action_script_attack()) {
-			gearTwo += 5;
-			gearOne = 0;
+			gearOne += 5;
 		}
-		if (gearTwo == 100) {
-		energyGauge = 120;
-		gearTwo = 0;
-		gearOne = 0;
-		state = player_states.standing;
-		exit;
-		}		
 		if (gearOne = 100) {
-		gearCharge++;
-		gearTwo = 0;
-		gearOne = 0;
-		state = player_states.standing;
-		exit;		
+			gearCharge++;
+			gearOne = 0;
+			tBuff = 40;
+			state = player_states.standing;
+			exit;		
 		}
 	} else {
-		if (gearOne > 0) {
-		gearOne--;
-		}
-		if (gearTwo > 0) {
-		gearTwo--;
+		if (gearOne > 5) {
+			gearOne--;
+		} else {
+		state = player_states.standing
 		}
 	}
-	
 	exit;
 }
 function downed() {
-	if (downGauge < 150 && (action_script_right_p() || action_script_left_p())) {
-		downGauge += 5;
+	if (downGauge < 150 && (action_script_attack())) {
+		downGauge += 10;
 	}
 	if (downGauge == 100) {
 		energyGauge = 150;

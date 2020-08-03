@@ -2,8 +2,10 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function action_script_thrust() {
 	if (gamepad_is_connected(global.gpad)) {
+		tBuff = 60;
 		return gamepad_button_check_pressed(global.gpad,gp_face4)
 	} else {
+	tBuff = 60;
 	return keyboard_check_pressed(vk_shift)
 	}
 }
