@@ -18,11 +18,11 @@ gearCharge = 0;
 gearOne = 0;
 gearTwo = 0;
 thrustDist = 0;
-
 charge = 0;
 global.gpad = 0;
 dashDirection = 0;
 tBuff = 0;
+swingPath = undefined;
 aBuff = 0;
 for (var i = 0; i < 12; i++) {
 	if (gamepad_is_connected(i)) {
@@ -35,6 +35,8 @@ enum player_states {
 	inair,
 	attacking,
 	windingUp,
+	hanging,
+	swinging,
 	chucking,
 	thrusting,
 	downed,

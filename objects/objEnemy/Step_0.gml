@@ -9,9 +9,8 @@ knocky = scrApproachZero(knocky,.5)
 }
 knockx = scrApproachZero(knockx,.1)
 knocky = scrApproachZero(knocky,.1)
-
-if (locked && !carried) {
-	if (capGate == 4 && action_script_attack()) {
+if (locked && !carried && objPlayer.state == player_states.locked) {
+	if (capGate == 2 && action_script_attack()) {
 		instance_destroy();
 		objPlayer.state = player_states.standing;
 		objPlayer.spd = 1.5;
@@ -28,7 +27,7 @@ if (locked && !carried) {
 	}
 	if (charged == cap && action_script_attack()) {
 	capGate++;
-	cap -= 25;
+	cap -= 30;
 	charged = 0;
 	}
 } else {

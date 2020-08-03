@@ -1,8 +1,12 @@
 /// @description Insert description here
 // You can write your code in this editor
-active = true;
 timer--;
-if (timer % 40 == hitFrame) {
-instance_destroy();
+if (timer == hitFrame) {
+active = true;
+} else {
+active = false;
 }
+if (timer == 0) {
+instance_destroy()
+};
 x = objPlayer.x + (32*dir);

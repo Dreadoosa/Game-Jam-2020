@@ -5,7 +5,10 @@
   },
   "solid": false,
   "visible": true,
-  "spriteMaskId": null,
+  "spriteMaskId": {
+    "name": "sprCrawlerHitBox",
+    "path": "sprites/sprCrawlerHitBox/sprCrawlerHitBox.yy",
+  },
   "persistent": false,
   "parentObjectId": null,
   "physicsObject": false,
