@@ -80,8 +80,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"28817562-40f5-40a8-90f8-e90234c87216","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "New Jam 20 20",
-    "path": "New Jam 20 20.yyp",
+    "name": "Sprites",
+    "path": "folders/Sprites.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprCrawlerAttack",

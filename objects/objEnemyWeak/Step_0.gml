@@ -2,6 +2,7 @@
 if (invuln != 0) {
 	invuln--;
 }
+if(gravTime > 0) {gravTime--}
 if (knockx > 6 && knocky > 6) {
 knockx = scrApproachZero(knockx,.5)
 knocky = scrApproachZero(knocky,.5)
@@ -56,15 +57,19 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 			y += sign(knocky)
 			}
 		}
-		if (!place_meeting(x,y+grav,objWall)) {
-			y += grav;
-		} else {
-			while (!place_meeting(x,y+sign(grav),objWall)) {
-			y += sign(grav)
+		if(gravTime == 0) {
+			if (!place_meeting(x,y+grav,objWall)) {
+				y += grav;
+			} else {
+				while (!place_meeting(x,y+sign(grav),objWall)) {
+				y += sign(grav)
+				}
 			}
 		}
-		if (!place_meeting(x,y+1,objWall) && grav < 6) {
-			grav += .1;
+		if(gravTime == 0) {
+			if (!place_meeting(x,y+1,objWall) && grav < 6) {
+				grav += .1;
+			}
 		}
 		if (place_meeting(x,y+1,objWall)) {
 			grav = 2;

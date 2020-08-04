@@ -6,6 +6,11 @@ function scrChangeStates(newState) {
 		//var list = undefined;
 		//log(list[|0]);
 	}
+	if (newState == player_states.downed) {
+	sprite_index = sprJunkoNoPower;
+	//image_speed = 0;
+	image_index = 0;
+	}
 		if (newState == player_states.attacking) {
 			image_speed = 2;
 			attacks++;

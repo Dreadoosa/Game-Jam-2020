@@ -4,6 +4,7 @@ hitPoints = 4;
 spd = 1.5;
 dir = 1;
 grav = 2;
+
 attacks = 0;
 jump = 0;
 thrusts = 1;

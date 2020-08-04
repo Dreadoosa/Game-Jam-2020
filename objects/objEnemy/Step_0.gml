@@ -1,6 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
-
+if(gravTime > 0) {gravTime--}
 if (invuln != 0) {
 	invuln--;
 }
@@ -58,6 +58,7 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 			y += sign(knocky)
 			}
 		}
+		if(gravTime == 0) {
 		if (!place_meeting(x,y+grav,objWall)) {
 			y += grav;
 		} else {
@@ -65,12 +66,13 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 			y += sign(grav)
 			}
 		}
-		if (!place_meeting(x,y+1,objWall) && grav < 6) {
-			grav += .1;
 		}
-		if (place_meeting(x,y+1,objWall)) {
-			grav = 2;
+		if(gravTime == 0) {
+			if (!place_meeting(x,y+1,objWall) && grav < 6) {
+				grav += .1;
+			}
 		}
+
 		if (hp < 0) {
 			disabled = true;
 		}

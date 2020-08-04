@@ -1,0 +1,29 @@
+/// @description Insert description here
+// You can write your code in this editor
+knockx = 0;
+knocky = 0;
+invuln = 0;
+disabled = true;
+gravTime = 0;
+hp = 3;
+num = 50;
+pause = false;
+partEm = part_emitter_create(objParticleManager.partSys);
+partEm1 = part_emitter_create(objParticleManager.partSys1);
+pauseTimer = 0;
+dir = 1;
+locked = false;
+attacking = false;
+alert = false;
+timer = 0;
+canAttack = true;
+carried = false;
+emitter = audio_emitter_create();
+cap = 120;
+grav = 9;
+charged = 0;
+capGate = 0;
+gateOneCap = 30;
+gateTwoCap = 60;
+gateThreeCap = 90;
+image_speed = .25;

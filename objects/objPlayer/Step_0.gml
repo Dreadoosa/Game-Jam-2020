@@ -525,8 +525,9 @@ function chucking() {
 	}
 	if (enemyHeld != undefined) {
 		if (action_script_up()) {
-			//enemyHeld.y = y-32;
-			enemyHeld.knocky = -10;		
+			grav = 10;
+			enemyHeld.y = y-16;
+			enemyHeld.grav = -8;		
 			enemyHeld.locked = false;
 			enemyHeld.carried = false;
 			enemyHeld = undefined;
@@ -537,10 +538,24 @@ function chucking() {
 			enemyHeld.carried = false;
 			enemyHeld = undefined;
 			jump = -18;
+		} else if (action_script_left() || action_script_right()) {
+			enemyHeld.knockx = 14 * image_xscale;
+			enemyHeld.grav = 0;
+			enemyHeld.gravTime = 20;
+			if (!place_meeting(x,y+1,objWall)) {
+			knockx = 10 * -image_xscale;
+			jump = -9
+			} else {
+			knockx = 4 * -image_xscale;
+			}
+			enemyHeld.locked = false;
+			enemyHeld.carried = false;
+			enemyHeld = undefined;			
 		} else {
 			enemyHeld.knockx = 7 * image_xscale;
 			if (!place_meeting(x,y+1,objWall)) {
 			knockx = 7 * -image_xscale;
+			enemyHeld.grav = -2;
 			jump = -9
 			} else {
 			knockx = 4 * -image_xscale;
@@ -602,6 +617,7 @@ function windingUp() {
 }
 function downed() {
 	connect_gpad();
+	image_speed = 0;
 	if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
 	if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
 	if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
@@ -612,6 +628,9 @@ function downed() {
 	timeInState++;
 	if (downGauge < 150 && (action_script_attack())) {
 		downGauge += 10;
+		if (downGauge % 30 == 0) {
+		image_index++;
+		}
 		audio_sound_alt(sfx_windup);
 	}
 	if (downGauge == 100) {
@@ -626,8 +645,7 @@ function downed() {
 		while (!place_meeting(x,y+sign(grav),objWall)) {
 		y+=sign(grav);
 		}
-	}	
-	
+	}
 }
 function swinging() {
 	log(path_position)
@@ -702,7 +720,7 @@ if (hitPoints <= 0) {
 	exit;
 }
 if (state == player_states.windingUp) {
-	objKey.x = x+5;
+	objKey.x = x + 5;
 	objKey.y = y - 20;
 	objKey.image_angle = 270;
 	objKey.image_xscale = 1;
