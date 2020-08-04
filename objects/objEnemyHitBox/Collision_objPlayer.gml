@@ -4,8 +4,16 @@ instance_destroy();
 if (other.state != player_states.thrusting
  && other.state != player_states.attacking
  && other.state != player_states.locked
- && other.state != player_states.downed
  ) {
-	other.state = player_states.knockBack;
+	 if (other.state == player_states.downed) {
+	 audio_sound(sfx_hit);
+	 other.hitPoints--;
+	 } else {
+	 audio_sound(sfx_hit);
+	 other.energyGauge--;	 
+	 }
+	with(objPlayer) {
+	scrChangeStates(player_states.knockBack)
+	}
 	other.knockTime = 0;
 }

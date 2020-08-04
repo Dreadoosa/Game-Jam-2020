@@ -4,6 +4,7 @@ activated = false;
 capGate = 0;
 starting = false;
 charged = 0;
+log("hjere")
 cap = 75;
 shakex = 0;
 shakey = 0;

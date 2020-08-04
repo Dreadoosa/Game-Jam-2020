@@ -68,8 +68,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"10cc35d7-d90a-4b53-addc-3e78b9fafb6a","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Jam 20 20",
-    "path": "Jam 20 20.yyp",
+    "name": "New Jam 20 20",
+    "path": "New Jam 20 20.yyp",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoChargeOne",

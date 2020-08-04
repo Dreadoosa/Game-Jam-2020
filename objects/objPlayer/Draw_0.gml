@@ -45,6 +45,7 @@ if (enemyHeld != undefined) {
 switch (state) {
 	case player_states.walking:		draw_text(x,y-32,"walking")	   break;
 	case player_states.standing:	draw_text(x,y-32,"standing")   break;
+	case player_states.dead:		draw_text(x,y-32,"dead")       break;
 	case player_states.inair:		draw_text(x,y-32,"in air")	   break;
 	case player_states.attacking:	draw_text(x,y-32,"attacking")  break;
 	case player_states.thrusting:	draw_text(x,y-32,"thrusting")  break;

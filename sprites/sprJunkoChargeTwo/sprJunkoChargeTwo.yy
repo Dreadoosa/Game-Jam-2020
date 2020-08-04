@@ -92,8 +92,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"851ab961-060a-4d47-9ecb-4c4c2d3b7b17","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Jam 20 20",
-    "path": "Jam 20 20.yyp",
+    "name": "New Jam 20 20",
+    "path": "New Jam 20 20.yyp",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoChargeTwo",
