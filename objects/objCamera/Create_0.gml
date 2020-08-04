@@ -9,6 +9,8 @@ layer_sequence_play(Sequence1);
 xx = 0;
 yy = 0;
 lerpC = .3;
+shakex = 0;
+shakey = 0;
 room_speed = 60;
 global.gain = .1;
 global.emitter = audio_emitter_create();

@@ -28,15 +28,41 @@ function scrChangeStates(newState) {
 			thisEn.knocky = -4;
 			thisEn.knockx = -image_xscale*6;
 		}
-		
+
 		if (newState == player_states.inair && jump != 0) {
 			audio_sound(sfx_jump)
+			image_index = 0;
 		}
+		if (newState == player_states.windingUp) {
+			switch (gearCharge) {
+				case 0:
+				sprite_index = sprJunkoChargeOne
+				if (!audio_is_playing(sfx_charge1)) {
+					audio_play_sound_on(global.emitter,sfx_charge1,1,1);
+				}
+				break;
+				
+				case 1:
+				sprite_index = sprJunkoChargeTwo
+				if (!audio_is_playing(sfx_charge2)) {
+					audio_play_sound_on(global.emitter,sfx_charge2,1,1);
+				}				
+				break;				
+				
+				case 2:
+				sprite_index = sprJunkoChargeThree
+				if (!audio_is_playing(sfx_charge3)) {
+					audio_play_sound_on(global.emitter,sfx_charge3,1,1);
+				}				
+				break;				
+			}
+		
+		}	
 		timeInState = 0;
 		previousState = state;
 		state = newState
 		if (newState == player_states.attacking) {
-		audio_sound(sfx_attackswing);
+		audio_sound_alt(sfx_attackswing);
 		}
 	}
 }

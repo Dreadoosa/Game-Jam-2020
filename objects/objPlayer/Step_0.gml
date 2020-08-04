@@ -23,6 +23,15 @@ knockx = scrApproachZero(knockx,.5)
 objGUI.keyInc = 0;
 image_angle = 0;
 function walking() {
+	if (canShake) {
+		while (timeInState < 8) {
+		sprite_index = sprJunko;
+		timeInState++;
+		cam_shake(5);
+		exit
+		};
+		canShake = false;
+	}
 	grav = 2;
 	thrusts = 1;
 	timeInState++;
@@ -109,6 +118,15 @@ function walking() {
 	}	
 }
 function standing() {
+	if (canShake) {
+		while (timeInState < 8) {
+		sprite_index = sprJunko;
+		timeInState++;
+		cam_shake(5);
+		exit
+		};
+		canShake = false;
+	}
 	timeInState++;
 	grav = 2
 	thrusts = 1;
@@ -272,6 +290,9 @@ function playerDash() {
 			}				
 		}
 		image_angle = 270;
+		if (gearCharge >= 2) {
+		canShake = true;
+		}
 	}	
 }	
 function inAir() {
@@ -359,10 +380,12 @@ function inAir() {
 		}
 		playerMove();
 		if (jump < 0) {
+		sprite_index = sprJunkoRise;
+		image_speed = 2.3;
 		jump++
 		} else {
 		sprite_index = sprJunkoFall;
-		}		
+		}
 				
 		
 }
@@ -402,6 +425,9 @@ function attack() {
 }
 function thrusting() {
 	timeInState++;
+	if (timeInState < 8 && timeInState > 1) {
+	exit;
+	}
 	jump = 0;
 	grav = 2;
 		if (thrustDist > 0){thrustDist--};
@@ -536,18 +562,26 @@ function windingUp() {
 	image_xscale = 1;
 	}
 	if (action_script_winding()) {
+		cam_shake(gearCharge/2);
 		if (action_script_attack()) {
 			gearOne += 5;
 			audio_sound_alt(sfx_windup);
 		}
 		if (gearOne >= 100) {
+			if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
+			if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
+			if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
 			gearCharge++;
 			gearOne = 0;
 			tBuff = 40;
 			scrChangeStates(player_states.standing)
+			audio_sound(sfx_energyrecharge);
 			exit;
 		}
 	} else {
+			if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
+			if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
+			if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
 		if (gearOne > 5) {
 			gearOne--;
 		} else {
@@ -558,6 +592,9 @@ function windingUp() {
 }
 function downed() {
 	connect_gpad();
+	if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
+	if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
+	if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
 	grav = 12;
 	if (path_index != -1) {
 		path_end();
@@ -606,7 +643,21 @@ function hanging() {
 		scrChangeStates(player_states.inair);
 	}
 }
-if (timer % 16 == 0 && state != player_states.windingUp) {
+function knockBack() {
+	if (knockTime < 15) {
+		repeat(6) {
+			if (!place_meeting(x-image_xscale,y,objWall)) {
+				x-=(image_xscale)
+			}
+		}
+		timeInState++;
+	} else {
+		scrChangeStates(player_states.standing);
+		exit;
+	}
+	knockTime++;
+}
+if (timer % 16 == 0 && state != player_states.windingUp && state != player_states.thrusting) {
 	if (energyGauge > 0) {
 	energyGauge--
 	} else {
@@ -623,6 +674,7 @@ switch (state) {
 	case player_states.locked:     locking();    break;
 	case player_states.swinging:   swinging();   break;
 	case player_states.chucking:   chucking();   break;
+	case player_states.knockBack:  knockBack();   break;
 	case player_states.windingUp:  windingUp();  break;
 	case player_states.hanging:    hanging();    break;
 	case player_states.downed:	   downed();     break;

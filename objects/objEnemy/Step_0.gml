@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+
 if (invuln != 0) {
 	invuln--;
 }
@@ -20,11 +21,6 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 	}
 	if (charged < cap && action_script_winding()) {
 		charged++;
-		var aud = 1/cap;
-		if (!audio_is_playing(sfx_windup)) {
-			audio_emitter_pitch(emitter,1+(charged*aud)*10)
-			audio_play_sound_on(emitter,sfx_windup,false,0);
-		}
 	}
 	
 	if (!action_script_winding()) {
@@ -34,10 +30,18 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 	}
 	if (charged == cap && action_script_attack()) {
 	capGate++;
-	cap -= 30;
+	cap -= 10;
 	charged = 0;
 	}
 } else {
+	if(pause) {
+		pauseTimer++;
+		if(pauseTimer == 30) {
+		pauseTimer = 0;
+		pause = false;
+		}
+		exit
+	}	
 	if (!attacking) {
 		#region collisions and knockback
 		if (!place_meeting(x+knockx,y,objWall)) {
@@ -72,21 +76,29 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 		}
 		#endregion
 	} else {		
+	
 	}
 }
 
 if (point_distance(x,y,objPlayer.x,objPlayer.y) < 150) {
 	alert = true;
 }
-
-if (point_distance(x,y,objPlayer.x,objPlayer.y) < 40) {
+image_speed = 0;
+if (point_distance(x,y,objPlayer.x,objPlayer.y) < 40 && !((objPlayer.enemyHeld) == id) && place_meeting(x,y+1,objWall)) {
 	alert = false;
-	var hb = instance_create_layer(x + -image_xscale*32,y,"Instances_1",objEnemyHitBox);
-	hb.hitFrame = 5;
-	hb.timer = 15;
+	if (canAttack) {
+		var hb = instance_create_layer(x + -image_xscale*32,y,"Instances_1",objEnemyHitBox);
+		hb.hitFrame = 5;
+		hb.timer = 15;
+		canAttack = false;
+		image_speed = 1;
+		alarm[0] = 100;
+		pause = true;
+		pauseTimer = 0;
+	}
 }
 if (alert) {
-	image_speed = .5;
+	image_speed = 0;
 	if (-sign(objPlayer.x - x)) {
 		image_xscale = 1;
 		if (!place_meeting(x-1,y,objWall)) {
@@ -99,4 +111,3 @@ if (alert) {
 		}
 	}
 }
-

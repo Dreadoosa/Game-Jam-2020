@@ -9,12 +9,14 @@ thrusts = 1;
 timer = 0;
 jspd = -18;
 knockx = 0;
+alarm[0] = 5;
 knocky = 0;
 jumpStore = 0;
 jumpCharge = 0;
 holdingEnemy = false;
 enemyHeld = undefined;
 downGauge = 0;
+canShake = false;
 energyGauge = 100;
 gearCharge = 0;
 gearOne = 0;
@@ -26,7 +28,9 @@ global.hitStop = 0;
 dashDirection = 0;
 timerF = 0;
 tBuff = 0;
+display = true;
 swingPath = undefined;
+knockTime = 0;
 aBuff = 0;
 hasKey = false;
 for (var i = 0; i < 12; i++) {
@@ -44,6 +48,7 @@ enum player_states {
 	swinging,
 	chucking,
 	thrusting,
+	knockBack,
 	downed,
 	locked,
 	disabled,

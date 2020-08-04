@@ -7,3 +7,6 @@ if (sprite_index == sprJunkoSlash) {
 	sprite_index = sprJunko;
 	}
 }
+if (sprite_index == sprJunkoFall) {
+	image_speed = 0;
+}
