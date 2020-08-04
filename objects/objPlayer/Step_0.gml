@@ -297,6 +297,9 @@ function playerDash() {
 }	
 function inAir() {
 	timeInState++;
+	if (previousState != player_states.chucking && jump < 0 && !action_script_jump_alt()) {
+		jump+=.75;
+	}
 	if (spd < 4) {spd += .25;}
 	if (jspd == 0 && spd < 5) {
 	spd += .1;
@@ -652,10 +655,13 @@ function knockBack() {
 		}
 		timeInState++;
 	} else {
-		scrChangeStates(player_states.standing);
+		scrChangeStates(previousState);
 		exit;
 	}
 	knockTime++;
+}
+function (dead) {
+
 }
 if (timer % 16 == 0 && state != player_states.windingUp && state != player_states.thrusting) {
 	if (energyGauge > 0) {
@@ -677,6 +683,7 @@ switch (state) {
 	case player_states.knockBack:  knockBack();   break;
 	case player_states.windingUp:  windingUp();  break;
 	case player_states.hanging:    hanging();    break;
+	case player_states.dead:       dead();       break;
 	case player_states.downed:	   downed();     break;
 }
 if (state == player_states.windingUp) {

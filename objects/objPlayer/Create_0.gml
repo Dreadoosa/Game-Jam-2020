@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+hitPoints = 4;
 spd = 1.5;
 dir = 1;
 grav = 2;
@@ -45,6 +46,7 @@ enum player_states {
 	attacking,
 	windingUp,
 	hanging,
+	dead,
 	swinging,
 	chucking,
 	thrusting,
