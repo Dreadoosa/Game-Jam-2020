@@ -19,7 +19,13 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 	}
 	if (charged < cap && action_script_winding()) {
 		charged++;
+		var aud = 1/cap;
+		if (!audio_is_playing(sfx_windup)) {
+			audio_emitter_pitch(emitter,1+(charged*aud)*10)
+			audio_play_sound_on(emitter,sfx_windup,false,0);
+		}
 	}
+	
 	if (!action_script_winding()) {
 		if (charged  > 0) {
 			charged--;

@@ -8,6 +8,7 @@ hp = 3;
 num = 50;
 locked = false;
 carried = false;
+emitter = audio_emitter_create();
 cap = 120;
 grav = 2;
 charged = 0;

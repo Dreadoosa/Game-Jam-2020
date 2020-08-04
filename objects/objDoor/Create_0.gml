@@ -4,6 +4,6 @@ activated = false;
 capGate = 0;
 starting = false;
 charged = 0;
-cap = 100;
+cap = 75;
 shakex = 0;
 shakey = 0;

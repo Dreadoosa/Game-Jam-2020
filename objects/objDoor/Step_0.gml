@@ -7,11 +7,13 @@ if (starting) {
 		objPlayer.spd = 1.5;
 		exit;
 	}
-	if (charged < cap && action_script_winding()) {
-		charged++;
-		shakex = irandom_range(-5,5)
-		shakey = irandom_range(-5,5)
+	if (charged < cap && action_script_winding() && action_script_attack()) {
+		charged+=5;
+	shakex = irandom_range(-5,5)
+	shakey = irandom_range(-5,5)
 	}
+	shakex = scrApproachZero(shakex,1)
+	shakey = scrApproachZero(shakey,1)
 	if (!action_script_winding()) {
 		if (charged  > 0) {
 			charged--;

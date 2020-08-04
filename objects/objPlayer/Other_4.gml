@@ -4,4 +4,6 @@ with (objSpawn) {
 	objPlayer.x = objSpawn.x
 	objPlayer.y = objSpawn.y
 }
+objCamera.xx = x;
+objCamera.yy = y;
 instance_create_layer(objPlayer.x,objPlayer.y,"Instances_1",objKey);

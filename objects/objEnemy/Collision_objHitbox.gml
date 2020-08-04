@@ -5,4 +5,5 @@ if (other.active && invuln == 0) {
 	knocky = -other.force/2
 	invuln = 10;
 	hp--;
+	audio_sound(sfx_hit);
 }

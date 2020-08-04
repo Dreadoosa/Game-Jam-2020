@@ -18,7 +18,12 @@ if (!place_meeting(x+(knockx),y,objWall)) {
 }
 knockx = scrApproachZero(knockx,.5)
 function walking() {
+	grav = 2;
+	thrusts = 1;
 	timeInState++;
+	if(place_meeting(x,y+1,objWall)) {
+	//audio_sound(sfx_walk1);
+	}
 	if (enemyHeld == undefined && action_script_winding_p() && gearCharge != 3) {
 		scrChangeStates(player_states.windingUp)
 		exit;
@@ -32,9 +37,8 @@ function walking() {
 		exit;
 	}
 	if (spd > 1.5) {
-	spd -= .1;
+		spd -= .25;
 	}
-	if (spd < 1.5) {spd = 1.5}
 	/*if (action_script_attack() && enemyHeld == undefined) {
 	state = player_states.attacking;
 	exit;
@@ -44,6 +48,7 @@ function walking() {
 	}
 	if (action_script_thrust() && enemyHeld == undefined) {
 	scrChangeStates(player_states.thrusting)
+	audio_sound_alt(sfx_thrust)
 	if (action_script_left()) {
 		dashDirection = -1;
 	}
@@ -59,32 +64,38 @@ function walking() {
 	}
 	playerMove();
 	if (!place_meeting(x,y+1,objWall)) {
-	state = player_states.inair;
-	jumpStore = 10;
+		scrChangeStates(player_states.inair)
+		jumpStore = 10;
+		exit;
 	}
 	if (action_script_jump()) {	
 		if (enemyHeld != undefined) {
-		jump = jspd * .7;
+		jump = jspd * .8;
 		} else {
 		jump = jspd;
 		}
 		scrChangeStates(player_states.inair)
+		exit;
 	}
 	if (jumpCharge != 0) {
 		jumpCharge = 0;
 		if (enemyHeld != undefined) {
-		jump = jspd * .7;
+		jump = jspd * .8;
 		} else {
 		jump = jspd;
 		}
 		scrChangeStates(player_states.inair)
+		exit;
 	}
 	if (action_script_attack() && enemyHeld != undefined) {
 		scrChangeStates(player_states.chucking)
+		exit;
 	}	
 }
 function standing() {
 	timeInState++;
+	grav = 2
+	thrusts = 1;
 	sprite_index = sprJunko;
 	spd = 1.5;
 	if (enemyHeld == undefined && action_script_winding_p() && gearCharge != 3) {
@@ -92,31 +103,35 @@ function standing() {
 		exit;
 	}
 	if (action_script_attack() && enemyHeld == undefined && aBuff == 0) {
-	scrChangeStates(player_states.attacking)
+		scrChangeStates(player_states.attacking)
+		exit;
 	}
 	if (action_script_attack() && enemyHeld != undefined) {
-	scrChangeStates(player_states.chucking)
+		scrChangeStates(player_states.chucking)
+		exit;
 	}			
 	if (action_script_thrust() && enemyHeld == undefined) {
-	scrChangeStates(player_states.thrusting)
-	if (action_script_left()) {
-		dashDirection = -1;
-	}
-	if (action_script_right()) {
-		dashDirection = 1;
-	}
-	if (!action_script_right() && !action_script_left()) {
-		dashDirection = image_xscale;
-	}
-	thrustDist = 5 * (gearCharge+1);
-	gearCharge = 0;
+		scrChangeStates(player_states.thrusting)
+		audio_sound_alt(sfx_thrust)
+		if (action_script_left()) {
+			dashDirection = -1;
+		}
+		if (action_script_right()) {
+			dashDirection = 1;
+		}
+		if (!action_script_right() && !action_script_left()) {
+			dashDirection = image_xscale;
+		}
+		thrustDist = 5 * (gearCharge+1);
+		gearCharge = 0;
+		exit;
 	}
 	if (action_script_left() || action_script_right()) {
 		scrChangeStates(player_states.walking)
 	}
-	if (action_script_jump()) {	
+	if (action_script_jump() && place_meeting(x,y+1,objWall)) {	
 		if (enemyHeld != undefined) {
-		jump = jspd * .7;
+		jump = jspd * .8;
 		} else {
 		jump = jspd;
 		}
@@ -126,10 +141,10 @@ function standing() {
 		jumpStore = 10;
 		scrChangeStates(player_states.inair)
 	}		
-	if (jumpCharge != 0) {
+	if (jumpCharge != 0  && place_meeting(x,y+1,objWall)) {
 		jumpCharge = 0;
 		if (enemyHeld != undefined) {
-		jump = jspd * .7;
+		jump = jspd * .8;
 		} else {
 		jump = jspd;
 		}
@@ -202,10 +217,17 @@ function playerDash() {
 			while (!place_meeting(x,y+sign(12),objWall)) {
 			y++;
 			}
-			if (action_script_left() || action_script_right()) {
-				scrChangeStates(player_states.walking);
+			if (place_meeting(x,y+1,objWall)) {
+				if (action_script_left() || action_script_right()) {
+					scrChangeStates(player_states.walking);
+					exit;
+				} else {
+					scrChangeStates(player_states.standing);
+					exit;
+				}
 			} else {
-				scrChangeStates(player_states.standing);
+				scrChangeStates(player_states.inair);
+				exit;
 			}
 		}	
 		if (place_meeting(x,y+8,objEnemy)) {
@@ -225,8 +247,13 @@ function playerDash() {
 }	
 function inAir() {
 	timeInState++;
-		if (action_script_thrust() && enemyHeld == undefined) {
+	if (spd < 4) {spd += .25;}
+	if (jspd == 0 && spd < 5) {
+	spd += .1;
+	}
+		if (action_script_thrust() && enemyHeld == undefined && thrusts > 0) {
 		scrChangeStates(player_states.thrusting);
+		audio_sound_alt(sfx_thrust)
 		if (action_script_left()) {
 			dashDirection = -1;
 		}
@@ -261,26 +288,11 @@ function inAir() {
 		if (jumpStore > 0 && action_script_jump()) {
 		jump = jspd;
 		}
-		if (spd > 4) {
-		spd -= .1;
+
+		if (grav < 12) {
+		grav += .12;
 		}
-		if (spd < 4) {
-			spd += .5;
-		}
-		if (jump > jspd/2) {
-			if (spd < 6) {
-				spd += .5;
-			}		
-			if (grav < 9) {
-			grav += .1;
-			}
-		}
-		
-		
-		if (grav < 7) {
-		grav += .1;
-		}
-		if (place_meeting(x,y-1,objWall)) {jump = 0;grav = 7;}
+		if (place_meeting(x,y-1,objWall)) {jump = 0;grav = 12;}
 		if (!place_meeting(x,y+jump,objWall)) {
 			y+=jump;
 		} else {
@@ -294,13 +306,17 @@ function inAir() {
 			while (!place_meeting(x,y+sign(grav),objWall)) {
 			y++;
 			}
-			if (action_script_left() || action_script_right()) {
-			scrChangeStates(player_states.walking)
+			if (!place_meeting(x,y+1,objWall)) {
+				scrChangeStates(player_states.inair)
 			} else {
-			scrChangeStates(player_states.standing)
+				if (action_script_left() || action_script_right()) {
+				scrChangeStates(player_states.walking)
+				exit;
+				} else {
+				scrChangeStates(player_states.standing)
+				exit;
+				}
 			}
-			spd = 1.5;
-			grav = 2;
 		}
 		if (jump < 0) {
 		jump++
@@ -309,9 +325,14 @@ function inAir() {
 }
 function attack() {
 	timeInState++;
+	jump = 0;
 	switch (gearCharge) {
 		case 0:
+		if (attacks % 2 == 0) {
 		sprite_index = sprJunkoSlash;
+		} else {
+		sprite_index = sprJunkoSlash2;
+		}
 		if (!instance_exists(objHitbox)) {
 			var hb = instance_create_layer(x+48*image_xscale,y,"Instances_1",objHitbox);
 			hb.sprite_index = sprSlash
@@ -338,27 +359,33 @@ function attack() {
 }
 function thrusting() {
 	timeInState++;
+	jump = 0;
+	grav = 2;
 		if (thrustDist > 0){thrustDist--};
 		if (thrustDist == 0) {
 			if (!place_meeting(x,y+1,objWall)) { 
-			scrChangeStates(state = player_states.inair)
+			scrChangeStates(player_states.inair)
+			exit;
 			} else {
 				if (action_script_left || action_script_right()) { 
-				scrChangeStates(state = player_states.walking)
+					scrChangeStates(player_states.walking)
+					exit;
 				} else {
-				scrChangeStates(state = player_states.standing)
+				scrChangeStates(player_states.standing)
+				exit;
 				}
 			}
 		}
-		
 		playerDash();
 		var inst = instance_place(x,y,objDoor);
 		if (inst != noone && !inst.starting) {
+		audio_sound(sfx_thrust_hit)
 			inst.starting = true;
 			scrChangeStates(player_states.locked);
 			exit;
 		}
 		if (place_meeting(x,y,objPeg)) {
+		audio_sound(sfx_thrust_hit)
 			if (!instance_exists(objHitbox)) {
 				var hb = instance_create_layer(x+48*image_xscale,y,"Instances_1",objHitbox);
 				hb.sprite_index = sprSlash
@@ -369,9 +396,9 @@ function thrusting() {
 				energyGauge -= 1;
 			}			
 		}
-		
 		var inst = instance_place(x,y,objEnemy);
 		if (inst != noone && inst.disabled) {
+		audio_sound(sfx_thrust_hit)
 			if (place_meeting(x,y,objEnemy)) {
 				thrustDist = 0;
 				spd = 1.5;
@@ -406,7 +433,7 @@ function locking() {
 		enemyHeld = en;
 		enemyHeld.carried = true;
 		enemyHeld.locked = false;
-		scrChangeStates(state = player_states.standing)
+		scrChangeStates(player_states.standing)
 	}
 	if (enemyHeld != undefined) {
 	enemyHeld.x = x;
@@ -468,27 +495,34 @@ function windingUp() {
 	if (action_script_winding()) {
 		if (action_script_attack()) {
 			gearOne += 5;
+			audio_sound_alt(sfx_windup);
 		}
 		if (gearOne = 100) {
 			gearCharge++;
 			gearOne = 0;
 			tBuff = 40;
-			scrChangeStates(state = player_states.standing)
+			scrChangeStates(player_states.standing)
 			exit;
 		}
 	} else {
 		if (gearOne > 5) {
 			gearOne--;
 		} else {
-		scrChangeStates(state = player_states.standing)
+		scrChangeStates(player_states.standing)
 		exit;
 		}
 	}
 }
 function downed() {
+	connect_gpad();
+	grav = 12;
+	if (path_index != -1) {
+		path_end();
+	}
 	timeInState++;
 	if (downGauge < 150 && (action_script_attack())) {
 		downGauge += 10;
+		audio_sound_alt(sfx_windup);
 	}
 	if (downGauge == 100) {
 		energyGauge = 150;
@@ -500,10 +534,8 @@ function downed() {
 		y+=grav;
 	} else {
 		while (!place_meeting(x,y+sign(grav),objWall)) {
-		y++;
+		y+=sign(grav);
 		}
-		spd = 1.5;
-		grav = 4;
 	}	
 	
 }
@@ -521,10 +553,10 @@ function swinging() {
 	}
 	
 }
-	
 function hanging() {
 	if (action_script_jump()) {
 		jump = jspd;
+		grav = 2;
 		scrChangeStates(player_states.inair)
 	}
 	if (action_script_left() || action_script_right()) {

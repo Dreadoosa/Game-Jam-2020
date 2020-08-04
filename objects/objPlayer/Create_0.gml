@@ -3,7 +3,9 @@
 spd = 1.5;
 dir = 1;
 grav = 2;
+attacks = 0;
 jump = 0;
+thrusts = 1;
 timer = 0;
 jspd = -18;
 knockx = 0;
@@ -41,10 +43,11 @@ enum player_states {
 	thrusting,
 	downed,
 	locked,
+	disabled,
 	standing
 }
-state = player_states.standing;
-previousState = player_states.standing
+state = player_states.disabled;
+previousState = player_states.disabled
 timeInState = 0;
 #macro log show_debug_message
 instance_create_layer(x,y,"Instances_1",objKey)

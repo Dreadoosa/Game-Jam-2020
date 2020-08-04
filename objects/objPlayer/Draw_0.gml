@@ -17,7 +17,7 @@ switch (state) {
 	case player_states.windingUp:	draw_text(x,y-32,"winding up") break;
 	case player_states.swinging:	draw_text(x,y-32,"swinging")   break;
 }
-
+draw_text(x,y+32,grav)
 if (state == player_states.windingUp) {
 	if (gearTwo > 0) {
 	draw_healthbar(x-48,y-32,x-16,y-36,gearTwo/100 * 100,c_black,c_red,c_red,1,true,true)
