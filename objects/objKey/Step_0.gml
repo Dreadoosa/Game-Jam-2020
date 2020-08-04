@@ -13,3 +13,7 @@ if (objPlayer.energyGauge > 75 && objPlayer.energyGauge < 100) {
 } else if (objPlayer.energyGauge == 0) {
 	image_speed = 0;
 }
+
+if (objPlayer.state == player_states.windingUp) {
+	image_speed = 1 * objPlayer.gearCharge;
+}

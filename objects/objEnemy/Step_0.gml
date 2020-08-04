@@ -10,6 +10,7 @@ knocky = scrApproachZero(knocky,.5)
 knockx = scrApproachZero(knockx,.1)
 knocky = scrApproachZero(knocky,.1)
 if (locked && !carried && objPlayer.state == player_states.locked) {
+	image_speed = 0;
 	if (capGate == 2 && action_script_attack()) {
 		instance_destroy();
 		objPlayer.state = player_states.standing;
@@ -37,36 +38,65 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 	charged = 0;
 	}
 } else {
-#region collisions and knockback
-if (!place_meeting(x+knockx,y,objWall)) {
-	x += knockx;
-} else {
-	while (!place_meeting(x+sign(knockx),y,objWall)) {
-	x += sign(knockx)
+	if (!attacking) {
+		#region collisions and knockback
+		if (!place_meeting(x+knockx,y,objWall)) {
+			x += knockx;
+		} else {
+			while (!place_meeting(x+sign(knockx),y,objWall)) {
+			x += sign(knockx)
+			}
+		}
+		if (!place_meeting(x,y+knocky,objWall)) {
+			y += knocky;
+		} else {
+			while (!place_meeting(x,y+sign(knocky),objWall)) {
+			y += sign(knocky)
+			}
+		}
+		if (!place_meeting(x,y+grav,objWall)) {
+			y += grav;
+		} else {
+			while (!place_meeting(x,y+sign(grav),objWall)) {
+			y += sign(grav)
+			}
+		}
+		if (!place_meeting(x,y+1,objWall) && grav < 6) {
+			grav += .1;
+		}
+		if (place_meeting(x,y+1,objWall)) {
+			grav = 2;
+		}
+		if (hp < 0) {
+			disabled = true;
+		}
+		#endregion
+	} else {		
 	}
 }
-if (!place_meeting(x,y+knocky,objWall)) {
-	y += knocky;
-} else {
-	while (!place_meeting(x,y+sign(knocky),objWall)) {
-	y += sign(knocky)
+
+if (point_distance(x,y,objPlayer.x,objPlayer.y) < 150) {
+	alert = true;
+}
+
+if (point_distance(x,y,objPlayer.x,objPlayer.y) < 40) {
+	alert = false;
+	var hb = instance_create_layer(x + -image_xscale*32,y,"Instances_1",objEnemyHitBox);
+	hb.hitFrame = 5;
+	hb.timer = 15;
+}
+if (alert) {
+	image_speed = .5;
+	if (-sign(objPlayer.x - x)) {
+		image_xscale = 1;
+		if (!place_meeting(x-1,y,objWall)) {
+			x--;
+		}
+	} else {
+		image_xscale = -1;
+		if (!place_meeting(x+1,y,objWall)) {
+			x++;
+		}
 	}
 }
-if (!place_meeting(x,y+grav,objWall)) {
-	y += grav;
-} else {
-	while (!place_meeting(x,y+sign(grav),objWall)) {
-	y += sign(grav)
-	}
-}
-if (!place_meeting(x,y+1,objWall) && grav < 6) {
-	grav += .1;
-}
-if (place_meeting(x,y+1,objWall)) {
-	grav = 2;
-}
-if (hp < 0) {
-	disabled = true;
-}
-#endregion
-}
+

@@ -3,6 +3,9 @@
 timer++;
 if (tBuff > 0){tBuff--;}
 if (aBuff > 0){aBuff--;}
+if (!ds_list_empty(objGUI.sentences)) {
+	exit;
+}
 if (enemyHeld != undefined) {
 	sprite_set_bbox(sprPlayerBox,0,-30,32,43)
 } else {
@@ -17,6 +20,8 @@ if (!place_meeting(x+(knockx),y,objWall)) {
 	}
 }
 knockx = scrApproachZero(knockx,.5)
+objGUI.keyInc = 0;
+image_angle = 0;
 function walking() {
 	grav = 2;
 	thrusts = 1;
@@ -47,8 +52,6 @@ function walking() {
 	scrChangeStates(player_states.chucking)
 	}
 	if (action_script_thrust() && enemyHeld == undefined) {
-	scrChangeStates(player_states.thrusting)
-	audio_sound_alt(sfx_thrust)
 	if (action_script_left()) {
 		dashDirection = -1;
 	}
@@ -58,9 +61,22 @@ function walking() {
 	if (!action_script_right() && !action_script_left()) {
 		dashDirection = image_xscale;
 	}
-	thrustDist = 5 * (gearCharge+1);
-	gearCharge = 0;
-	gearCharge = 0;
+	thrustDist = 10 * (gearCharge+1);
+	//gearCharge = 0;
+	scrChangeStates(player_states.thrusting)
+	audio_sound_alt(sfx_thrust)
+	switch (gearCharge) {
+		case 0:
+		if (sprite_index != sprJunkoThrustLevelThree) {
+		sprite_index = sprJunkoThrust
+		}
+		break;
+		
+		default:
+		sprite_index = sprJunkoThrustLevelThree
+		break;
+	}
+	exit;
 	}
 	playerMove();
 	if (!place_meeting(x,y+1,objWall)) {
@@ -122,8 +138,8 @@ function standing() {
 		if (!action_script_right() && !action_script_left()) {
 			dashDirection = image_xscale;
 		}
-		thrustDist = 5 * (gearCharge+1);
-		gearCharge = 0;
+		thrustDist = 10 * (gearCharge+1);
+
 		exit;
 	}
 	if (action_script_left() || action_script_right()) {
@@ -183,11 +199,21 @@ function playerMove() {
 }
 function playerDash() {
 	timeInState++;
+		switch (gearCharge) {
+			case 0:
+			if (sprite_index != sprJunkoThrustLevelThree) {
+			sprite_index = sprJunkoThrust
+			}
+			break;
+		
+			default:
+			sprite_index = sprJunkoThrustLevelThree
+			break;
+		}	
 	if (spd != 5) {
 	spd = 5;
 	energyGauge -= 10;
 	}
-	
 	if (dashDirection == 1) {
 		if (!place_meeting(x+(spd),y,objWall)) {
 			x = round(x)
@@ -214,15 +240,17 @@ function playerDash() {
 		if (!place_meeting(x,y+12,objWall)) {
 			y+=12;
 		} else {
-			while (!place_meeting(x,y+sign(12),objWall)) {
+			while(!place_meeting(x,y+1,objWall)) {
 			y++;
 			}
 			if (place_meeting(x,y+1,objWall)) {
 				if (action_script_left() || action_script_right()) {
 					scrChangeStates(player_states.walking);
+					y-=6;
 					exit;
 				} else {
 					scrChangeStates(player_states.standing);
+					y-=6;
 					exit;
 				}
 			} else {
@@ -243,6 +271,7 @@ function playerDash() {
 				energyGauge -= 1;
 			}				
 		}
+		image_angle = 270;
 	}	
 }	
 function inAir() {
@@ -266,8 +295,18 @@ function inAir() {
 		if (!action_script_right() && !action_script_left() && !action_script_down()) {
 			dashDirection = image_xscale;
 		}
-		thrustDist = 5 * (gearCharge+1);
-		gearCharge = 0;
+			thrustDist = 10 * (gearCharge+1);
+			switch (gearCharge) {
+				case 0:
+				if (sprite_index != sprJunkoThrustLevelThree) {
+				sprite_index = sprJunkoThrust
+				}
+				break;
+		
+				default:
+				sprite_index = sprJunkoThrustLevelThree
+				break;
+			}
 		}		
 		if (action_script_attack() && enemyHeld != undefined) {
 		scrChangeStates(player_states.chucking);
@@ -318,10 +357,14 @@ function inAir() {
 				}
 			}
 		}
+		playerMove();
 		if (jump < 0) {
 		jump++
-		}
-		playerMove();
+		} else {
+		sprite_index = sprJunkoFall;
+		}		
+				
+		
 }
 function attack() {
 	timeInState++;
@@ -363,6 +406,7 @@ function thrusting() {
 	grav = 2;
 		if (thrustDist > 0){thrustDist--};
 		if (thrustDist == 0) {
+			gearCharge = 0;
 			if (!place_meeting(x,y+1,objWall)) { 
 			scrChangeStates(player_states.inair)
 			exit;
@@ -414,15 +458,10 @@ function thrusting() {
 			}
 		}
 		playerDash();
-		switch (charge) {
-			case 0:
-
-			break;
-		}
 }
 function locking() {
 	timeInState++;
-	if (action_script_up())  {
+	if (action_script_up() && !place_meeting(x,y,objDoor))  {
 		var en = undefined;
 		with (objEnemy) {
 			if (locked) {
@@ -445,15 +484,18 @@ function locking() {
 }
 function chucking() {
 	timeInState++;
+	if (timeInState < 10) {
+	exit;
+	}
 	if (enemyHeld != undefined) {
 		if (action_script_up()) {
-			enemyHeld.y = y-32;
+			//enemyHeld.y = y-32;
 			enemyHeld.knocky = -10;		
 			enemyHeld.locked = false;
 			enemyHeld.carried = false;
 			enemyHeld = undefined;
 		} else if (action_script_down()) {
-			enemyHeld.y = y+32;
+			//enemyHeld.y = y+32;
 			enemyHeld.knocky = 7;	
 			enemyHeld.locked = false;
 			enemyHeld.carried = false;
@@ -486,6 +528,7 @@ function chucking() {
 }		
 function windingUp() {
 	timeInState++;
+	objGUI.keyInc = 1;
 	if (action_script_left()) {
 	image_xscale = -1;
 	}
@@ -497,7 +540,7 @@ function windingUp() {
 			gearOne += 5;
 			audio_sound_alt(sfx_windup);
 		}
-		if (gearOne = 100) {
+		if (gearOne >= 100) {
 			gearCharge++;
 			gearOne = 0;
 			tBuff = 40;
@@ -563,7 +606,7 @@ function hanging() {
 		scrChangeStates(player_states.inair);
 	}
 }
-if (timer % 16 == 0) {
+if (timer % 16 == 0 && state != player_states.windingUp) {
 	if (energyGauge > 0) {
 	energyGauge--
 	} else {
@@ -584,5 +627,13 @@ switch (state) {
 	case player_states.hanging:    hanging();    break;
 	case player_states.downed:	   downed();     break;
 }
-objKey.x = x + 12* -image_xscale;
-objKey.y = y;
+if (state == player_states.windingUp) {
+	objKey.x = x+5;
+	objKey.y = y - 20;
+	objKey.image_angle = 270;
+	objKey.image_xscale = 1;
+} else {
+	objKey.x = x + 12* -image_xscale;
+	objKey.y = y
+	objKey.image_angle = 0;
+}

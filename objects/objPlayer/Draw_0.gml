@@ -1,7 +1,28 @@
 /// @description Insert description here
 // You can write your code in this editor
+timerF++;
+if (state != player_states.thrusting) {
 draw_self();
-
+} else {
+	for (var i = 2; i >= 0; i--) {
+		for (var n = 0; n <= 2; n++) {
+			if (timerF % 2 == 0 && dashDirection != 0) {
+			draw_sprite_ext(sprite_index,image_index,x + -image_xscale * (n*32),y,image_xscale,image_yscale,image_angle,make_color_rgb(0,0,i*60),1/6*i);
+			}
+			if (timerF % 2 == 0 && dashDirection == 0) {
+			draw_sprite_ext(sprite_index,image_index,x,y + -image_xscale * (n*32),image_xscale,image_yscale,image_angle,make_color_rgb(0,0,i*60),1/6*i);
+			}
+		}
+		draw_self();
+	}
+}/*
+if (sprite_index == sprJunkoSlash || sprite_index == sprJunkoSlash2) {
+	draw_self();
+	draw_sprite_ext(sprite_index,image_index-1,x,y,image_xscale,image_yscale,0,c_white,1);
+	draw_sprite_ext(sprite_index,image_index-2,x,y,image_xscale,image_yscale,0,c_red,.5);
+	draw_sprite_ext(sprite_index,image_index-3,x,y,image_xscale,image_yscale,0,c_yellow,.25);
+	draw_sprite_ext(sprite_index,image_index-4,x,y,image_xscale,image_yscale,0,c_white,.1);
+}*/
 if (enemyHeld != undefined) {
 	enemyHeld.x = x;
 	enemyHeld.y = y-32;

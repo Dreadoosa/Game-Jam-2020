@@ -7,6 +7,6 @@ active = true;
 active = false;
 }
 if (timer == 0) {
-instance_destroy()
+	instance_destroy()
 };
 x = objPlayer.x + (32*dir);

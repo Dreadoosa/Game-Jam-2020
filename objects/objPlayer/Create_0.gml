@@ -22,10 +22,13 @@ gearTwo = 0;
 thrustDist = 0;
 charge = 0;
 global.gpad = 0;
+global.hitStop = 0;
 dashDirection = 0;
+timerF = 0;
 tBuff = 0;
 swingPath = undefined;
 aBuff = 0;
+hasKey = false;
 for (var i = 0; i < 12; i++) {
 	if (gamepad_is_connected(i)) {
 	global.gpad = i;
