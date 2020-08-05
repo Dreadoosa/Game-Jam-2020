@@ -19,7 +19,7 @@ if (starting) {
 			charged--;
 		}
 	}
-	if (charged == cap && action_script_attack()) {
+	if (charged >= cap && action_script_attack()) {
 	capGate++;
 	cap -= 30;
 	charged = 0;

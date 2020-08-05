@@ -42,44 +42,7 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 		}
 		exit
 	}	
-	if (!attacking) {
-		#region collisions and knockback
-		if (!place_meeting(x+knockx,y,objWall)) {
-			x += knockx;
-		} else {
-			while (!place_meeting(x+sign(knockx),y,objWall)) {
-			x += sign(knockx)
-			}
-		}
-		if (!place_meeting(x,y+knocky,objWall)) {
-			y += knocky;
-		} else {
-			while (!place_meeting(x,y+sign(knocky),objWall)) {
-			y += sign(knocky)
-			}
-		}
-		if(gravTime == 0) {
-		if (!place_meeting(x,y+grav,objWall)) {
-			y += grav;
-		} else {
-			while (!place_meeting(x,y+sign(grav),objWall)) {
-			y += sign(grav)
-			}
-		}
-		}
-		if(gravTime == 0) {
-			if (!place_meeting(x,y+1,objWall) && grav < 6) {
-				grav += .1;
-			}
-		}
-
-		if (hp < 0) {
-			disabled = true;
-		}
-		#endregion
-	} else {		
-	
-	}
+	scrEnemyMove();
 }
 
 if (point_distance(x,y,objPlayer.x,objPlayer.y) < 150) {

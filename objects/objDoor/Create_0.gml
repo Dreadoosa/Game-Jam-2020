@@ -5,6 +5,6 @@ capGate = 0;
 starting = false;
 charged = 0;
 log("hjere")
-cap = 75;
+cap = 20;
 shakex = 0;
 shakey = 0;

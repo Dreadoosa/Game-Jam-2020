@@ -2,6 +2,7 @@
 // You can write your code in this editor
 knockx = 0;
 knocky = 0;
+partEm = part_emitter_create(objParticleManager.partSys);
 invuln = 0;
 disabled = false;
 gravTime = 0;

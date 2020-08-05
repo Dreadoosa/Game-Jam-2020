@@ -539,7 +539,7 @@ function chucking() {
 			enemyHeld = undefined;
 			jump = -18;
 		} else if (action_script_left() || action_script_right()) {
-			enemyHeld.knockx = 14 * image_xscale;
+			enemyHeld.knockx = 9 * image_xscale;
 			enemyHeld.grav = 0;
 			enemyHeld.gravTime = 20;
 			if (!place_meeting(x,y+1,objWall)) {
@@ -589,7 +589,7 @@ function windingUp() {
 	if (action_script_winding()) {
 		cam_shake(gearCharge/2);
 		if (action_script_attack()) {
-			gearOne += 5;
+			gearOne += 10;
 			audio_sound_alt(sfx_windup);
 		}
 		if (gearOne >= 100) {
@@ -604,9 +604,9 @@ function windingUp() {
 			exit;
 		}
 	} else {
-			if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
-			if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
-			if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
+		if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
+		if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
+		if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
 		if (gearOne > 5) {
 			gearOne--;
 		} else {
@@ -617,7 +617,7 @@ function windingUp() {
 }
 function downed() {
 	connect_gpad();
-	image_speed = 0;
+	
 	if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
 	if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
 	if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
@@ -625,15 +625,11 @@ function downed() {
 	if (path_index != -1) {
 		path_end();
 	}
-	timeInState++;
-	if (downGauge < 150 && (action_script_attack())) {
-		downGauge += 10;
-		if (downGauge % 30 == 0) {
-		image_index++;
-		}
+	if (downGauge < 15 && (action_script_attack())) {
+		downGauge += 1;
 		audio_sound_alt(sfx_windup);
 	}
-	if (downGauge == 100) {
+	if (downGauge == 15) {
 		energyGauge = 150;
 		downGauge = 0;
 		scrChangeStates(player_states.standing)
@@ -646,6 +642,12 @@ function downed() {
 		y+=sign(grav);
 		}
 	}
+	image_speed = 0;
+	var increment = image_number/(15)
+	image_index = floor(increment*downGauge);
+	log("speed" + string(image_speed));
+	log("frame" + string(floor(increment*downGauge)));
+	timeInState++;
 }
 function swinging() {
 	log(path_position)
@@ -713,7 +715,6 @@ switch (state) {
 	case player_states.windingUp:  windingUp();  break;
 	case player_states.hanging:    hanging();    break;
 	case player_states.dead:       dead();       break;
-	case player_states.downed:	   downed();     break;
 }
 if (hitPoints <= 0) {
 	scrChangeStates(player_states.dead);

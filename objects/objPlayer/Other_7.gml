@@ -1,6 +1,9 @@
 /// @description Insert description here
 // You can write your code in this editor
-if(image_speed==0){exit};
+if(image_speed == 0){exit};
+if (sprite_index == sprJunkoNoPowerIntro) {
+hasKey = true;
+}
 if (sprite_index == sprJunkoSlash) {
 	if (state == player_states.walking) {
 	sprite_index = sprJunkWalk

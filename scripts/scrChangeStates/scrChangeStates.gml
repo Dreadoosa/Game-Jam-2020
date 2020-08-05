@@ -61,11 +61,16 @@ function scrChangeStates(newState) {
 				}				
 				break;				
 			}
-		
 		}	
 		timeInState = 0;
 		previousState = state;
 		state = newState
+		if (newState == player_states.swinging) {
+		audio_sound(sfx_swinglock);			
+		}
+		if (newState == player_states.hanging) {
+		audio_sound(sfx_swinglock);			
+		}		
 		if (newState == player_states.attacking) {
 		audio_sound_alt(sfx_attackswing);
 		}
