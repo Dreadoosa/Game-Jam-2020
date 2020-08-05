@@ -3,7 +3,11 @@
 if (hovered) {
 	if (action_script_attack()) {
 		if (buttonScript != undefined) {
-		script_execute(buttonScript);
+			if (init) {
+			init = false;
+			alarm[0] = 120;
+			global.transition = true;
+			} 
 		}
 	}
 	draw_rectangle_color(x-80,y-30,x+80,y+30,c_red,c_red,c_red,c_red,false)

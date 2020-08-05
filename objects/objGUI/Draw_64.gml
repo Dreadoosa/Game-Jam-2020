@@ -20,13 +20,13 @@ if (!ds_list_empty(sentences)) {
 	var arr = sentences[|curString];
 	if (curPos < string_length(arr[@0]) + 1) {
 		if (action_script_attack()) {
-			curPos += 1;
+			curPos += 1 + global.talkSpeed;
 			if(curPos % 2 == 0) {
 			if(audio_is_playing(sfx_dialogue)){audio_stop_sound(sfx_dialogue)}
 			audio_sound_alt(sfx_dialogue)
 			}
 		} else {
-			curPos += .5;
+			curPos += global.talkSpeed;
 			if(curPos % 2 == 0) {
 			if(audio_is_playing(sfx_dialogue)){audio_stop_sound(sfx_dialogue)}
 			audio_sound_alt(sfx_dialogue)
@@ -39,9 +39,11 @@ if (!ds_list_empty(sentences)) {
 	draw_set_halign(fa_left) {
 	draw_set_valign(fa_left)
 	draw_rectangle_color(65,225,545,320,c_black,c_black,c_black,c_black,false)
+	draw_rectangle_color(0,0,65,65,c_black,c_black,c_black,c_black,false)
+	
 	draw_text_ext(70,240,string_copy(arr[@0],0,curPos),15,465);
 	}
-	if (curPos == string_length(arr[@0]) + 1 && action_script_attack()) {
+	if (curPos >= string_length(arr[@0]) + 1 && action_script_attack()) {
 		curPos = 0;
 		if(curString + 1 == ds_list_size(sentences)) {
 		ds_list_clear(sentences)

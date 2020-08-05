@@ -3,8 +3,8 @@
   "solid": false,
   "visible": true,
   "spriteMaskId": {
-    "name": "sprPegHitBox",
-    "path": "sprites/sprPegHitBox/sprPegHitBox.yy",
+    "name": "sprTalkHitBox",
+    "path": "sprites/sprTalkHitBox/sprTalkHitBox.yy",
   },
   "persistent": false,
   "parentObjectId": null,

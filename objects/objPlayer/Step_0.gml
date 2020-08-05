@@ -22,7 +22,41 @@ if (!place_meeting(x+(knockx),y,objWall)) {
 knockx = scrApproachZero(knockx,.5)
 objGUI.keyInc = 0;
 image_angle = 0;
+function ladder() {
+	canGrab = false;
+	timeInState++;
+	if (place_meeting(x,y,objLadder)) {
+		if (action_script_up()) {
+			y -= 3;
+		}
+		if (action_script_down()) {
+			if (place_meeting(x,y+1,objWall)) {
+				scrChangeStates(player_states.standing)
+				exit;
+			}
+			if (!place_meeting(x,y+3,objWall)) {
+			y += 3;
+			} else {
+				while (!place_meeting(x,y+1,objWall)) {
+				y++;
+				}
+			}
+			
+		}
+	} else {
+		scrChangeStates(player_states.standing);
+		exit;
+	}
+	if ((action_script_left() || action_script_right()) && timeInState > 45) {
+		if (!place_meeting(x,y+6,objWall)){y+=6}
+		scrChangeStates(player_states.inair)
+		jump = 0;
+		grav = 4;
+		exit;
+	}
+}
 function walking() {
+	canGrab = true;
 	if (canShake) {
 		while (timeInState < 8) {
 		sprite_index = sprJunko;
@@ -107,6 +141,7 @@ function walking() {
 	}	
 }
 function standing() {
+	canGrab = true;
 	if (canShake) {
 		while (timeInState < 8) {
 		sprite_index = sprJunko;
@@ -294,6 +329,7 @@ function playerDash() {
 	}	
 }	
 function inAir() {
+	if(timeInState == 0) {canGrab = true;};
 	timeInState++;
 	if (previousState == player_states.hanging && timeInState < 7) {
 	exit;
@@ -665,6 +701,7 @@ function downed() {
 		energyGauge = 150;
 		downGauge = 0;
 		scrChangeStates(player_states.standing)
+		audio_sound(sfx_energyrecharge);
 		exit;
 	}
 	if (!place_meeting(x,y+grav,objWall)) {
@@ -716,7 +753,7 @@ function knockBack() {
 		}
 		timeInState++;
 	} else {
-		scrChangeStates(previousState);
+		scrChangeStates(player_states.standing);
 		exit;
 	}
 	knockTime++;
@@ -731,7 +768,6 @@ function dead(){
 function downing() {
 	
 }
-	
 
 if (timer % 16 == 0 && state != player_states.windingUp && state != player_states.thrusting) {
 	if (energyGauge > 0) {
@@ -749,6 +785,7 @@ switch (state) {
 	case player_states.attacking:  attack();     break;
 	case player_states.thrusting:  thrusting();  break;
 	case player_states.locked:     locking();    break;
+	case player_states.ladder:     ladder();    break;
 	case player_states.swinging:   swinging();   break;
 	case player_states.chucking:   chucking();   break;
 	case player_states.knockBack:  knockBack();  break;

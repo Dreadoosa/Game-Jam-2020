@@ -7,14 +7,19 @@ shakex = scrApproachZero(shakex,irandom_range(0,1))
 if (shakey != 0) {
 shakey = scrApproachZero(shakey,irandom_range(0,1))
 }
-xx = lerp(xx,actor.x,lerpC)
-xx = clamp(xx,0,room_width)
-yy = lerp(yy,actor.y,lerpC)
-yy = clamp(yy,0,room_height)
+if (actor != undefined) {
+	xx = lerp(xx,actor.x,lerpC)
+	xx = clamp(xx,0,room_width)
+	yy = lerp(yy,actor.y,lerpC)
+	yy = clamp(yy,0,room_height)
+}
 camera_set_view_size(view,view_width,view_height)
 if (actor == objPlayer) {
 camera_set_view_pos(view,clamp(xx-view_width/2+shakex,0,room_width),clamp(yy-view_height/2+shakey,0,room_height))
 } else {
-camera_set_view_pos(view,xx-view_width/2+shakex,yy-view_height/2+shakey)
+	if (actor == undefined) {
+	camera_set_view_pos(view,600,600)
+	}
+	camera_set_view_pos(view,xx-view_width/2+shakex,yy-view_height/2+shakey)
 }
 dir*=-1;

@@ -41,12 +41,14 @@ for (var i = 0; i < 12; i++) {
 	log("gpad found")
 	}
 }
+canGrab = true;
 enum player_states {
 	walking,
 	inair,
 	attacking,
 	windingUp,
 	hanging,
+	ladder,
 	dead,
 	downing,
 	swinging,

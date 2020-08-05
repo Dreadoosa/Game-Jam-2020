@@ -3,3 +3,4 @@
 hovered = false;
 buttonText = "no text"
 buttonScript = undefined;
+init = true;

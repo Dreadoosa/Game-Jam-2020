@@ -5,7 +5,7 @@
 view_width = 640
 view_height = 360
 window_scale = 2;
-actor = objPlayer;
+actor = objOptions;
 layer_sequence_play(Sequence1);
 xx = 0;
 yy = 0;
@@ -13,10 +13,6 @@ lerpC = .3;
 shakex = 0;
 shakey = 0;
 room_speed = 60;
-global.gain = .1;
-global.emitter = audio_emitter_create();
-audio_emitter_gain(global.emitter,.1)
-audio_master_gain(global.gain)
 dir = 1;
 window_set_size(view_width*window_scale,view_height*window_scale);
 alarm[0] = 1;

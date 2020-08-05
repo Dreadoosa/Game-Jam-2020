@@ -10,7 +10,7 @@ if (other.state != player_states.thrusting
 	 other.hitPoints--;
 	 } else {
 	 audio_sound(sfx_playerhurt);
-	 other.energyGauge--;	 
+	 other.energyGauge-=10;	 
 	 }
 	with(objPlayer) {
 	scrChangeStates(player_states.knockBack)

@@ -1,5 +1,8 @@
 /// @description Insert description here
 // You can write your code in this editor
+if(!ds_list_empty(objGUI.sentences)) {
+	exit;
+}
 if(gravTime > 0) {gravTime--}
 if (invuln != 0) {
 	invuln--;
