@@ -47,6 +47,7 @@ enum player_states {
 	windingUp,
 	hanging,
 	dead,
+	downing,
 	swinging,
 	chucking,
 	thrusting,

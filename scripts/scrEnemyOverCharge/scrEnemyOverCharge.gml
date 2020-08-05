@@ -1,6 +1,6 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function scrEnemyOverCharge(){
+function scrEnemyOverCharge() {
 	image_speed = 0;
 	if (capGate == 2 && action_script_attack()) {
 		instance_destroy();

@@ -497,6 +497,15 @@ function thrusting() {
 }
 function locking() {
 	timeInState++;
+	if (action_script_winding()) {
+		with(objPlayer) {
+			if (!place_meeting(x,y + 1,objWall)) {
+				sprite_index = sprJunkoChargingAir
+			} else {
+				sprite_index = sprJunkoChargingFloor
+			}
+		}
+	}
 	if (action_script_up() && !place_meeting(x,y,objDoor))  {
 		var en = undefined;
 		with (objEnemy) {
@@ -617,7 +626,6 @@ function windingUp() {
 }
 function downed() {
 	connect_gpad();
-	
 	if (audio_is_playing(sfx_charge1)) {audio_stop_sound(sfx_charge1)}
 	if (audio_is_playing(sfx_charge2)) {audio_stop_sound(sfx_charge2)}
 	if (audio_is_playing(sfx_charge3)) {audio_stop_sound(sfx_charge3)}
@@ -694,24 +702,28 @@ function dead(){
 	hitPoints = 4;
 	exit;
 }
+function downing() {
+	image_index -= .25;
+}
 if (timer % 16 == 0 && state != player_states.windingUp && state != player_states.thrusting) {
 	if (energyGauge > 0) {
 	energyGauge--
 	} else {
-	scrChangeStates(player_states.downed)
+	scrChangeStates(player_states.downing)
 	exit;
 	}
 }
 switch (state) {
 	case player_states.walking:    walking();    break;
 	case player_states.standing:   standing();   break;
+	case player_states.downing:    downing();    break;
 	case player_states.inair:      inAir();      break;
 	case player_states.attacking:  attack();     break;
 	case player_states.thrusting:  thrusting();  break;
 	case player_states.locked:     locking();    break;
 	case player_states.swinging:   swinging();   break;
 	case player_states.chucking:   chucking();   break;
-	case player_states.knockBack:  knockBack();   break;
+	case player_states.knockBack:  knockBack();  break;
 	case player_states.windingUp:  windingUp();  break;
 	case player_states.hanging:    hanging();    break;
 	case player_states.dead:       dead();       break;

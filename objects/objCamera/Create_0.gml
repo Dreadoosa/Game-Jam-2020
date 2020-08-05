@@ -5,6 +5,7 @@
 view_width = 640
 view_height = 360
 window_scale = 2;
+actor = objPlayer;
 layer_sequence_play(Sequence1);
 xx = 0;
 yy = 0;

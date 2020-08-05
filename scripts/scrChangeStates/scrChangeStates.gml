@@ -1,6 +1,11 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function scrChangeStates(newState) {	
+function scrChangeStates(newState) {
+	if (newState == player_states.downing){
+		sprite_index = sprJunkoNoPower;
+		image_index = sprite_get_number(sprJunkoNoPower)-1;
+		//image_speed = .1;
+	}
 	with (objPlayer) {
 	if (state == player_states.thrusting && newState == player_states.walking) {
 		//var list = undefined;

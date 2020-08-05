@@ -4,3 +4,4 @@ objPlayer.state = player_states.downed;
 sprite_index = sprJunkoNoPowerIntro;
 audio_sound(sfx_swinglock);
 instance_destroy();
+objCamera.actor = objPlayer;
