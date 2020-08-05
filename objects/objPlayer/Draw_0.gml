@@ -1,6 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
+/*
 timerF++;
+
+if (state == player_states.swinging) {
+	draw_sprite_ext(sprite_index,image_index,curPeg.x,curPeg.y,-image_xscale,image_yscale,0,c_white,1)
+} else {
 	if (state != player_states.thrusting) {
 		if (state == player_states.knockBack) {
 			if (display) {
@@ -29,7 +34,7 @@ timerF++;
 			}
 		}
 	}
-
+}
 /*
 if (sprite_index == sprJunkoSlash || sprite_index == sprJunkoSlash2) {
 	draw_self();
@@ -41,7 +46,7 @@ if (sprite_index == sprJunkoSlash || sprite_index == sprJunkoSlash2) {
 if (enemyHeld != undefined) {
 	enemyHeld.x = x;
 	enemyHeld.y = y-32;
-}
+}/*
 switch (state) {
 	case player_states.walking:		draw_text(x,y-32,"walking")	   break;
 	case player_states.standing:	draw_text(x,y-32,"standing")   break;
@@ -54,7 +59,7 @@ switch (state) {
 	case player_states.locked:		draw_text(x,y-32,"locked")	   break;
 	case player_states.windingUp:	draw_text(x,y-32,"winding up") break;
 	case player_states.swinging:	draw_text(x,y-32,"swinging")   break;
-}
+}*/
 draw_text(x,y+32,timeInState)
 if (state == player_states.windingUp) {
 	if (gearTwo > 0) {

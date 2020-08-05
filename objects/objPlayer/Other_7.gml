@@ -6,7 +6,11 @@ hasKey = true;
 }
 if (sprite_index == sprJunkoSlash) {
 	if (state == player_states.walking) {
-	sprite_index = sprJunkWalk
+		if (enemyHeld != undefined) {
+		sprite_index = sprJunkoWalkGrabbing;
+		} else {
+		sprite_index = sprJunkWalk
+		}
 	} else {
 	sprite_index = sprJunko;
 	}

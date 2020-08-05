@@ -2,8 +2,8 @@
 // You can write your code in this editor
 //objPlayer.x = x-64;
 //objPlayer.y = y;
-objPlayer.sprite_index = sprJunko;
 instance_destroy(other);
+objPlayer.curPeg = id;
 if (objPlayer.x < x) {
 	with (objPlayer) {
 	path_start(other.path,220,path_action_stop,true);

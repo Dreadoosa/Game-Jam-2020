@@ -1,7 +1,7 @@
 {
   "spriteId": {
-    "name": "sprWall",
-    "path": "sprites/sprWall/sprWall.yy",
+    "name": "sprDestructableWall",
+    "path": "sprites/sprDestructableWall/sprDestructableWall.yy",
   },
   "solid": false,
   "visible": true,
@@ -20,7 +20,9 @@
   "physicsStartAwake": true,
   "physicsKinematic": false,
   "physicsShapePoints": [],
-  "eventList": [],
+  "eventList": [
+    {"isDnD":false,"eventNum":0,"eventType":4,"collisionObjectId":{"name":"objHitbox","path":"objects/objHitbox/objHitbox.yy",},"parent":{"name":"objWallDestructable","path":"objects/objWallDestructable/objWallDestructable.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+  ],
   "properties": [],
   "overriddenProperties": [],
   "parent": {

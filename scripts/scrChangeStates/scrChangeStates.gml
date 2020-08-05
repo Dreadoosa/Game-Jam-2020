@@ -7,6 +7,9 @@ function scrChangeStates(newState) {
 		//image_speed = .1;
 	}
 	with (objPlayer) {
+	if (newState == player_states.swinging) {
+		sprite_index = sprJunkoSwing;
+	}
 	if (state == player_states.thrusting && newState == player_states.walking) {
 		//var list = undefined;
 		//log(list[|0]);
@@ -63,7 +66,7 @@ function scrChangeStates(newState) {
 				sprite_index = sprJunkoChargeThree
 				if (!audio_is_playing(sfx_charge3)) {
 					audio_play_sound_on(global.emitter,sfx_charge3,1,1);
-				}				
+				}
 				break;				
 			}
 		}	
