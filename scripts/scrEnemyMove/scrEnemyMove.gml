@@ -32,9 +32,7 @@ function scrEnemyMove(){
 			}
 		}
 
-		if (hp < 0) {
-			disabled = true;
-		}
+		if (hp < 0) {disabled = true;}
 		#endregion
 	}
 }

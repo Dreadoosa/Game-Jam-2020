@@ -5,8 +5,12 @@
 view_width = 640
 view_height = 360
 window_scale = 2;
+if (instance_exists(objOptions)) {
 actor = objOptions;
-layer_sequence_play(Sequence1);
+} else {
+actor = objPlayer;
+}
+
 xx = 0;
 yy = 0;
 lerpC = .3;

@@ -34,7 +34,7 @@ display = true;
 swingPath = undefined;
 knockTime = 0;
 aBuff = 0;
-hasKey = false;
+hasKey = true;
 for (var i = 0; i < 12; i++) {
 	if (gamepad_is_connected(i)) {
 	global.gpad = i;
@@ -60,8 +60,8 @@ enum player_states {
 	disabled,
 	standing
 }
-state = player_states.disabled;
-previousState = player_states.disabled
+state = player_states.standing;
+previousState = player_states.standing
 timeInState = 0;
 #macro log show_debug_message
 instance_create_layer(x,y,"Instances_1",objKey)

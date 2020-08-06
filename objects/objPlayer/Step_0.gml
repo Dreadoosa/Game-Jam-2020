@@ -19,6 +19,9 @@ if (!place_meeting(x+(knockx),y,objWall)) {
 	x += sign(knockx);
 	}
 }
+if (objCamera.actor != id) {
+objCamera.actor = id
+};
 knockx = scrApproachZero(knockx,.5)
 objGUI.keyInc = 0;
 image_angle = 0;
@@ -554,6 +557,22 @@ function thrusting() {
 				exit;
 			}
 		}
+			
+			
+		var inst = instance_place(x,y,objGlintFight)
+		if (inst != noone && inst.disabled) {
+		audio_sound(sfx_thrust_hit)
+			if (place_meeting(x,y,objGlintFight)) {
+				thrustDist = 0;
+				spd = 1.5;
+				var inst = instance_place(x,y,objGlintFight);
+				inst.x = x + 32*image_xscale;
+				inst.y = y;
+				inst.caught = true;
+				scrChangeStates(player_states.locked)
+				exit;
+			}
+		}			
 		playerDash();
 }
 function locking() {
@@ -567,7 +586,7 @@ function locking() {
 			}
 		}
 	}
-	if (action_script_up() && !place_meeting(x,y,objDoor))  {
+	if (action_script_up() && !place_meeting(x,y,objDoor) && !place_meeting(x,y,objGlintFight))  {
 		var en = undefined;
 		with (objEnemy) {
 			if (locked) {

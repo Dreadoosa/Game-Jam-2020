@@ -1,6 +1,7 @@
 /// @description Insert description here
 // You can write your code in this editor
 //draw_healthbar(10,10,500,30,objPlayer.energyGauge/100 * 100,c_black,c_red,c_red,0,true,true)
+if (surface_exists(guiSurf)) {
 surface_set_target(guiSurf);
 draw_clear_alpha(c_white,0)
 draw_sprite(sprChargeBar,objPlayer.gearCharge,90,340)
@@ -54,3 +55,7 @@ if (!ds_list_empty(sentences)) {
 }
 surface_reset_target();
 draw_surface_ext(guiSurf,0,0,objCamera.window_scale,objCamera.window_scale,0,c_white,1);
+} else {
+	guiSurf = surface_create(1000,1000);
+
+}

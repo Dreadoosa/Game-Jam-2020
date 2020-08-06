@@ -116,8 +116,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"9f63eb35-6e5f-40d8-be57-285b59d55f82","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "Glint",
+    "path": "folders/Sprites/Glint.yy",
   },
   "resourceVersion": "1.0",
   "name": "glint_capeshot1",

@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Timelines",
-    "path": "folders/Timelines.yy",
+    "name": "Scripts",
+    "path": "folders/Scripts.yy",
   },
   "resourceVersion": "1.0",
-  "name": "Sequence1_Events17",
+  "name": "action_script_escape_p",
   "tags": [],
   "resourceType": "GMScript",
 }

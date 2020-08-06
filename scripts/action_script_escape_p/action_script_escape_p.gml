@@ -1,9 +1,9 @@
 // Script assets have changed for v2.3.0 see
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-function action_script_down() {
+function action_script_escape_p() {
 	if (gamepad_is_connected(global.gpad)) {
-		return gamepad_button_check(global.gpad,gp_padd)
+		return gamepad_button_check_pressed(global.gpad,gp_face2)
 	} else {	
-	return keyboard_check(ord("S"))
+	return keyboard_check_pressed(vk_escape)
 	}
 }

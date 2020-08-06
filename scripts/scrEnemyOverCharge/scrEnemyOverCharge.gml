@@ -12,7 +12,6 @@ function scrEnemyOverCharge() {
 	if (charged < cap && action_script_winding()) {
 		charged++;
 	}
-	
 	if (!action_script_winding()) {
 		if (charged  > 0) {
 			charged--;

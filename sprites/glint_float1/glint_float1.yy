@@ -76,8 +76,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"ee875ca7-8aaf-47f8-ad56-70f1d0363af4","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "Glint",
+    "path": "folders/Sprites/Glint.yy",
   },
   "resourceVersion": "1.0",
   "name": "glint_float1",
