@@ -8,6 +8,7 @@ enum glint_states {
 	slash,
 	stalkingFlare,
 	hurt,
+	ultrashot,
 	skyshot,
 	tTransition,
 	tTransition2,
@@ -28,6 +29,7 @@ slashes = 3;
 shakey = 0;
 dashin = true;
 shootin = true
+canAttack = true;
 aPoint = 0;
 alarm[0] = 5;
 hitGauge = 0;
@@ -48,5 +50,5 @@ timer = 0;
 amplitude1 = 5;
 freq1 = 0.1;
 
-state = glint_states.stalkingFlare;
+state = glint_states.floating;
 previousState = state;

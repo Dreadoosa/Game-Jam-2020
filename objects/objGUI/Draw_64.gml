@@ -34,9 +34,6 @@ if (!ds_list_empty(sentences)) {
 			}
 		}
 	}
-
-
-	
 	draw_set_halign(fa_left) {
 	draw_set_valign(fa_left)
 	draw_rectangle_color(65,225,545,320,c_black,c_black,c_black,c_black,false)
@@ -46,11 +43,15 @@ if (!ds_list_empty(sentences)) {
 	}
 	if (curPos >= string_length(arr[@0]) + 1 && action_script_attack()) {
 		curPos = 0;
+		curString++;
 		if(curString + 1 == ds_list_size(sentences)) {
 		ds_list_clear(sentences)
+		curPos = 0;
+		curString = 0;
 		audio_sound(sfx_transmissionend);
-		}
-		curString++;
+		surface_reset_target();
+		exit;
+		}		
 	}
 }
 surface_reset_target();

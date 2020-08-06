@@ -557,8 +557,6 @@ function thrusting() {
 				exit;
 			}
 		}
-			
-			
 		var inst = instance_place(x,y,objGlintFight)
 		if (inst != noone && inst.state == glint_states.disabled) {
 		audio_sound(sfx_thrust_hit)

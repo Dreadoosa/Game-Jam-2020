@@ -1,5 +1,11 @@
 /// @description Insert description here
 // You can write your code in this editor
+if (sprite_index == sprGlintCapeShot && state == glint_states.ultrashot) {
+glintStateChange(glint_states.slash)
+image_speed = 2;
+slashes = 10;
+exit;
+}
 if (sprite_index == sprGlintCapeShot) {
 	if (shots < 4) {
 	shots++;
@@ -21,6 +27,7 @@ if (sprite_index == sprGlintBombSpawn) {
 if (sprite_index == sprGlintSwipe) {
 	if (slashes > 0) {
 		x = objPlayer.x;
+		canAttack = true;
 		y = objPlayer.y-10;
 		anchorY = y;
 		slashes--;

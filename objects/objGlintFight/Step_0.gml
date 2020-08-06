@@ -1,7 +1,7 @@
 /// @description Insert description here
 // You can write your code in this editor
 timer++;
-if (state != glint_states.tTransition && state != glint_states.slash) {
+if (state != glint_states.tTransition && state != glint_states.slash && state != glint_states.tTransition2) {
 	if (objPlayer.x > x) {image_xscale = 1} else {
 	image_xscale = -1;
 	}
@@ -26,32 +26,43 @@ function hurt () {
 	timeInState++;
 	x += hDir*3;
 	if (timeInState >= 60) {
+		if (phase == 6) {
+		instance_destroy(self);
+		instance_create_layer(x,y,"Instances_1",objGlintDialogue)	
+		exit;
+	}
 	glintStateChange(glint_states.floating)
 	exit;
 	}
 }
-function bombing(){
+function bombing() {
 	if (timeInState == 0) {
 		sprite_index = sprGlintBombSpawn;
 		image_index = 0
 	}
 	image_speed = 1;
-	if (canSpawn) {
-	canSpawn = false;
-	if (x < room_width/2) {
-		var bomb = instance_create_layer(x+32,y,"Instances_1",objBomber)
-		bomb.disabled = true;
-		bomb.canExplode = true;	
-	} else {
-		var bomb = instance_create_layer(x-32,y,"Instances_1",objBomber)
-		bomb.disabled = true;
-		bomb.canExplode = true;		
-	}
-
+	if (canSpawn && timeInState == 60) {
+		canSpawn = false;
+		if (x < room_width/2) {
+			var bomb = instance_create_layer(x+32,y,"Instances_1",objBomber)
+			bomb.disabled = true;
+			bomb.canExplode = true;	
+		} else {
+			var bomb = instance_create_layer(x-32,y,"Instances_1",objBomber)
+			bomb.disabled = true;
+			bomb.canExplode = true;		
+		}
 	}
 	if (timeInState >= 380) {
 		glintStateChange(glint_states.floating)
 		instance_destroy(objBomber);
+			if (objPlayer.state == player_states.thrusting || objPlayer.state == player_states.locked) {
+				with(objPlayer) {
+					if (enemyHeld != undefined) {
+					scrChangeStates(player_states.standing);
+					}
+				}
+			}
 		with (objPlayer) {
 			if (enemyHeld != undefined) {
 			enemyHeld.locked = false;
@@ -75,7 +86,7 @@ function dashing() {
 					x-=15
 					}
 					x-=15
-				};
+				}
 				if (y < 340) {
 					if (phase == 3) {
 					y+=10
@@ -132,6 +143,11 @@ function dashing() {
 	}
 }
 function floating() {
+	
+	if (previousState == glint_states.slash && phase == 5) {
+		glintStateChange(glint_states.bombing)
+		exit;
+	}
 	if (y > 200 && !floatPoint) {
 		y -=2;
 		if (x < room_width/2) {x+=5}
@@ -141,6 +157,11 @@ function floating() {
 		floatTimer++;
 		y = (anchorY + sin(timer*freq)*amplitude);
 		if (floatTimer > 30) {
+			if (phase >= 4) {
+				image_index = 0;
+				glintStateChange(glint_states.stalkingFlare);
+				exit;
+			}
 			if (bombin) {
 				glintStateChange(glint_states.bombing);
 				bombin = false;
@@ -247,11 +268,12 @@ function disabled() {
 			}
 			phase++;
 			glintStateChange(glint_states.hurt);
+			
 		}
 	}
 }
 function slash() {
-	image_speed = 2;
+	//image_speed = 2;
 	if (timeInState == 0) {
 		if (image_xscale == 1) {
 		image_xscale = -1;
@@ -259,6 +281,11 @@ function slash() {
 		image_xscale = 1;
 		}
 	}
+	if (image_index > 37 && image_index < 40 && canAttack) {
+		canAttack = false;
+		instance_create_layer(x,y,"Instances_1",objEnemyHitBox);
+	}
+	
 	y = (anchorY + sin(timer*freq)*amplitude);
 	if (image_xscale < 1) {
 		image_xscale += .25;
@@ -277,11 +304,10 @@ function tTransition2() {
 		image_xscale += .1
 	}
 	if (image_xscale == 0) {
-		glintStateChange(glint_states.slash)
-		x = objPlayer.x;
-		y = objPlayer.y
+		glintStateChange(glint_states.ultrashot)
 		exit;
 	}
+	image_speed = 1;
 }
 function tTransition() {
 	timeInState++;
@@ -297,24 +323,52 @@ function tTransition() {
 		exit;
 	}
 }
-
 function stalkingFlare() {
 	timeInState++;
 	if (timeInState < 180) {
-		move_towards_point(objPlayer.x,objPlayer.y+32,1);
+		move_towards_point(objPlayer.x,objPlayer.y+32,2);
 		sprite_index = sprGlintSpin;	
+		image_speed = 3;
 	} else {
-		if (timeInState < 181) {
+		speed = 0;
+		glintStateChange(glint_states.tTransition2);
+		/*
+		if (timeInState < 182) {
 			if (x > room_width/2) {
-			sfDir = -1;
-			} else {
 			sfDir = 1;
+			} else {
+			sfDir = -1;
 			}
 			aPoint = objPlayer.y
+			image_speed = 4;
 		}
-		y = (y + (sin(timer*freq)*20))
-		x += sfDir * 7;
+		if (x <= 30) {
+		sfDir = 1;
+		} else if (x >= 600){
+		sfDir = -1;
+		}
+		y = (aPoint + (sin(timer*freq)*80))
+		x += sfDir * 3;*/
 	}
+}	
+function ultrashot() {
+	if (timeInState == 0) {
+		image_speed = 0;
+		image_index = 0;
+		sprite_index = sprGlintCapeShot;
+	}
+	if (timeInState >= 90) {
+		image_speed = 1;
+	}
+	if (sprite_index == sprGlintCapeShot && image_index >= 3 && image_index <= 5 && canShoot) {
+		instance_create_layer(objPlayer.x-150,y-150,"Instances_1",objEnemyGlintProjectile);
+		instance_create_layer(objPlayer.x+150,y+150,"Instances_1",objEnemyGlintProjectile);
+		instance_create_layer(objPlayer.x-150,y+150,"Instances_1",objEnemyGlintProjectile);
+		instance_create_layer(objPlayer.x+150,y-150,"Instances_1",objEnemyGlintProjectile);
+		canShoot = false;
+	}
+	
+	timeInState++;
 }
 switch (state) {
 	case glint_states.floating:      floating();    break;
@@ -322,8 +376,10 @@ switch (state) {
 	case glint_states.disabled:		 disabled();    break;
 	case glint_states.slash:		 slash();	    break;
 	case glint_states.stalkingFlare: stalkingFlare()break;
+	case glint_states.ultrashot:     ultrashot()    break;
 	case glint_states.bombing:		 bombing();     break;
 	case glint_states.hurt:			 hurt();        break;
 	case glint_states.tTransition:   tTransition(); break;
+	case glint_states.tTransition2:  tTransition2(); break;
 	case glint_states.skyshot:		 skyshot();     break;
 }

@@ -1,5 +1,17 @@
 /// @description Insert description here
 // You can write your code in this editor
+if (state == glint_states.ultrashot) {
+	if (display) {
+	draw_sprite_ext(sprite_index,image_index,objPlayer.x-150+irandom_range(-2,2),objPlayer.y-150+irandom_range(-2,2),image_xscale,image_yscale,0,c_white,.8);
+	draw_sprite_ext(sprite_index,image_index,objPlayer.x+150+irandom_range(-2,2),objPlayer.y-150+irandom_range(-2,2),-image_xscale,image_yscale,0,c_white,.8);
+	draw_sprite_ext(sprite_index,image_index,objPlayer.x+150+irandom_range(-2,2),objPlayer.y+150+irandom_range(-2,2),-image_xscale,image_yscale,0,c_white,.8);
+	draw_sprite_ext(sprite_index,image_index,objPlayer.x-150+irandom_range(-2,2),objPlayer.y+150+irandom_range(-2,2),image_xscale,image_yscale,0,c_white,.8);
+	}
+	exit;
+}
+
+
+
 if (state == glint_states.hurt) {
 	if (display) {
 	draw_sprite_ext(sprite_index,image_index,x,y,image_xscale,image_yscale,0,c_white,1);
