@@ -96,8 +96,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"205258f9-09f6-453b-b50e-170fa20726f4","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "junko",
+    "path": "folders/Sprites/junko.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoThrustLevelThree",

@@ -11,10 +11,12 @@ if (init) {
 }
 if (action_script_down_p()) {
 	curButton--;
+	audio_sound_alt(sfx_menuup);
 	if(curButton == -1){curButton = ds_list_size(buttons)-1}
 }
 if (action_script_up_p()) {
 	curButton++;
+	audio_sound_alt(sfx_menuup);
 	if(curButton == ds_list_size(buttons)){curButton = 0}
 }
 

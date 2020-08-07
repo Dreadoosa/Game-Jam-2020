@@ -92,8 +92,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"5bc0de85-dd9a-4c8a-9b09-2512b97ce632","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "junko",
+    "path": "folders/Sprites/junko.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoSlash",

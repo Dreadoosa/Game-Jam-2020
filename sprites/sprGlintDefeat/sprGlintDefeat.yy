@@ -68,8 +68,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"e8472917-37d6-4f6f-9f35-169f1a7e3827","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "New Jam 20 20",
-    "path": "New Jam 20 20.yyp",
+    "name": "Glint",
+    "path": "folders/Sprites/Glint.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprGlintDefeat",

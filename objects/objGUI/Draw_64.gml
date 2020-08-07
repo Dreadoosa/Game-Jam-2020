@@ -35,17 +35,30 @@ if (!ds_list_empty(sentences)) {
 			}
 		}
 	}
-	draw_set_halign(fa_left) {
+	draw_set_halign(fa_left) 
 	draw_set_valign(fa_left)
-	draw_rectangle_color(65,225,545,320,c_black,c_black,c_black,c_black,false)
-	draw_rectangle_color(0,0,65,65,c_black,c_black,c_black,c_black,false)
-	
-	draw_text_ext(70,240,string_copy(arr[@0],0,curPos),15,465);
+	if (arr[@2] == arr[@3]) {
+		if (timer % 2 == 0) {
+		draw_sprite_ext(arr[@2],0,590,280,-image_xscale,image_yscale,0,c_white,1);
+		}
+	} else {
+		draw_sprite_ext(arr[@2],0,590,280,-image_xscale,image_yscale,0,c_gray,1);
 	}
+	if (arr[@1] == arr[@3]) {
+		if (timer % 2 == 0) {
+		draw_sprite_ext(arr[@1],0,50,280,image_xscale,image_yscale,0,c_white,1);
+		}
+	} else {
+		draw_sprite_ext(arr[@1],0,50,280,image_xscale,image_yscale,0,c_gray,1);
+	}
+	
+	draw_rectangle_color(80,210,558,350,c_black,c_black,c_black,c_black,false)
+	draw_text_ext(90,220,string_copy(arr[@0],0,curPos),15,465);
+	
 	if (curPos >= string_length(arr[@0]) + 1 && action_script_attack()) {
 		curPos = 0;
 		curString++;
-		if(curString + 1 == ds_list_size(sentences)) {
+		if(curString == ds_list_size(sentences)) {
 		ds_list_clear(sentences)
 		curPos = 0;
 		curString = 0;

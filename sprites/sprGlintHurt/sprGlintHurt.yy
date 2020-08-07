@@ -72,8 +72,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"2d9b7c80-1187-46e1-9e1c-3e6755b676e7","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "New Jam 20 20",
-    "path": "New Jam 20 20.yyp",
+    "name": "Glint",
+    "path": "folders/Sprites/Glint.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprGlintHurt",

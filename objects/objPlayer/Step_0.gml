@@ -4,7 +4,7 @@ timer++;
 // STEP EVENT OF THE PLAYER OR SOME CONTROLLER OBJECT
 if (tBuff > 0){tBuff--;}
 if (aBuff > 0){aBuff--;}
-if (!ds_list_empty(objGUI.sentences)) {
+if (instance_exists(objGUI) && !ds_list_empty(objGUI.sentences)) {
 	exit;
 }
 if (enemyHeld != undefined) {

@@ -7,6 +7,7 @@ if (hovered) {
 			init = false;
 			alarm[0] = 120;
 			global.transition = true;
+			audio_sound_alt(sfx_menuaccept);
 			} 
 		}
 	}

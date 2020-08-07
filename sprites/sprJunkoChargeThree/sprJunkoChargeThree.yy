@@ -92,8 +92,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"b958f9d7-af17-4f9b-8c89-52bcb3a8920c","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "junko",
+    "path": "folders/Sprites/junko.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoChargeThree",

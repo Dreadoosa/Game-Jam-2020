@@ -88,8 +88,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"e65797fa-c5dc-4f6d-b5b7-d54fa08b864d","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "New Jam 20 20",
-    "path": "New Jam 20 20.yyp",
+    "name": "junko",
+    "path": "folders/Sprites/junko.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoClimb",

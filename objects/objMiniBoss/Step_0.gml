@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+timer++;
 function changeStatesTank(newState) {
 	state = newState
 	timeInState = 0;
@@ -75,12 +76,28 @@ function movingforwardlong() {
 	}	
 timeInState++;
 }
-	
-	
-if (hp <= 50) {
-	changeStatesTank(m_states.dying);
-
+function dying() {
+	if (ds_list_empty(objGUI.sentences) && state == m_states.dying && canExit) {
+		leaving = true;
+	}
+	cam_shake(5);
+	timeInState++;
+	if (!endFight && timeInState >= 60) {
+	endFight = true;
+	objPlayer.spd = 0;
+	objPlayer.sprite_index = sprJunko;
+	var lin = instance_create_layer(objPlayer.x,objPlayer.y,"effects",objLines)
+	lin.sId = 6;
+	canExit = true;
+	}
 }
+
+if (hp <= 0 && state != m_states.dying) {
+	changeStatesTank(m_states.dying);
+	exit;
+}
+
+
 switch (state) {
 	case m_states.movingforwardlong: movingforwardlong(); break;
 	case m_states.walkingforward:    walkingforward();	  break;

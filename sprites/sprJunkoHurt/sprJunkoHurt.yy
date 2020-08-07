@@ -104,8 +104,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"d6e3b647-4469-451e-b43d-a21a6ea7ec6c","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "Sprites",
-    "path": "folders/Sprites.yy",
+    "name": "junko",
+    "path": "folders/Sprites/junko.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprJunkoHurt",

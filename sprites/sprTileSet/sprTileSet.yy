@@ -68,8 +68,8 @@
     {"visible":true,"isLocked":false,"blendMode":0,"opacity":100.0,"displayName":"default","resourceVersion":"1.0","name":"cb5bf194-df8c-4deb-bb8d-0ad00e983d14","tags":[],"resourceType":"GMImageLayer",},
   ],
   "parent": {
-    "name": "New Jam 20 20",
-    "path": "New Jam 20 20.yyp",
+    "name": "Sprites",
+    "path": "folders/Sprites.yy",
   },
   "resourceVersion": "1.0",
   "name": "sprTileSet",

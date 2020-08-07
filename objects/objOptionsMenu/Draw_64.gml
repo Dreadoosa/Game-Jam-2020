@@ -78,6 +78,7 @@ if (action_script_down_p()) {
 
 if (action_script_escape_p()) {
 	room_goto(rmMenu);
+	audio_sound_alt(sfx_menudecline);
 }
 
 if (global.transition) {
