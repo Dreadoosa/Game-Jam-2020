@@ -17,3 +17,11 @@ if (instance_exists(objGUI) && !ds_list_empty(objGUI.sentences)) {
 if (audio_is_playing(ostTitle) && room != rmMenu) {
 	audio_stop_sound(ostTitle);
 }
+
+if (room == rmLevelOneMiniBoss) {
+	if (objMiniBoss.active) {
+		if(!audio_is_playing(Trashheap__Miniboss_Theme_)) {
+		audio_play_sound_on(global.emitter,Trashheap__Miniboss_Theme_,true,0);
+		}
+	}
+}

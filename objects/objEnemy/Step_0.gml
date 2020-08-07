@@ -1,5 +1,6 @@
 /// @description Insert description here
 // You can write your code in this editor
+/*
 if(!ds_list_empty(objGUI.sentences)) {
 	exit;
 }
@@ -14,16 +15,25 @@ knocky = scrApproachZero(knocky,.5)
 knockx = scrApproachZero(knockx,.1)
 knocky = scrApproachZero(knocky,.1)
 if (locked && !carried && objPlayer.state == player_states.locked) {
-	image_speed = 0;
-	if (capGate == 2 && action_script_attack()) {
+	if (capGate == 3 && action_script_attack()) {
 		instance_destroy();
 		objPlayer.state = player_states.standing;
 		objPlayer.spd = 1.5;
 		keyboard_clear(vk_shift);
 		exit;
 	}
-	if (charged < cap && action_script_winding()) {
-		charged++;
+	if (charged < cap && action_script_winding() && action_script_attack()) {
+		if (capGate == 0){
+			hitSpark(objPlayer.x,objPlayer.y,spark_overcharge_simple,1)
+		}
+		if (capGate == 1){
+			hitSpark(objPlayer.x,objPlayer.y,spark_overcharge_busy,1)
+		}
+		if (capGate == 2){
+			hitSpark(objPlayer.x,objPlayer.y,spark_overcharge_busiest,1)
+		}		
+		charged+=20;
+		audio_sound_alt(sfx_windup);
 	}
 	
 	if (!action_script_winding()) {
@@ -31,7 +41,7 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 			charged--;
 		}
 	}
-	if (charged == cap && action_script_attack()) {
+	if (charged >= cap && action_script_attack()) {
 	capGate++;
 	cap -= 10;
 	charged = 0;
@@ -45,13 +55,12 @@ if (locked && !carried && objPlayer.state == player_states.locked) {
 		}
 		exit
 	}	
-	scrEnemyMove();
-}
 
+	sprite_index = sprCrawlerWalk;
+}
 if (point_distance(x,y,objPlayer.x,objPlayer.y) < 150) {
 	alert = true;
 }
-image_speed = 0;
 if (point_distance(x,y,objPlayer.x,objPlayer.y) < 40 && !((objPlayer.enemyHeld) == id) && place_meeting(x,y+1,objWall)) {
 	alert = false;
 	if (canAttack) {
@@ -66,7 +75,6 @@ if (point_distance(x,y,objPlayer.x,objPlayer.y) < 40 && !((objPlayer.enemyHeld) 
 	}
 }
 if (alert) {
-	image_speed = 0;
 	if (-sign(objPlayer.x - x)) {
 		image_xscale = 1;
 		if (!place_meeting(x-1,y,objWall)) {

@@ -15,9 +15,9 @@ if (canExplode) {
 	}
 	explosion--;
 	if(explosion == 0) {instance_destroy()};
-	scrEnemyMove()
 }
-if(gravTime > 0) {gravTime--}
+scrEnemyMove()
+if(gravTime > 0) {gravTime--}/*
 if (invuln != 0) {
 	invuln--;
 	sprite_index = sprBomberHurt;
@@ -25,7 +25,7 @@ if (invuln != 0) {
 	if (sprite_index != sprBomberTimer && sprite_index != sprBomberAlert) {
 	//sprite_index = sprBomberWalk;
 	}
-}
+}*/
 if (knockx > 6 && knocky > 6) {
 knockx = scrApproachZero(knockx,.5)
 knocky = scrApproachZero(knocky,.5)

@@ -143,7 +143,6 @@ function dashing() {
 	}
 }
 function floating() {
-	
 	if (previousState == glint_states.slash && phase == 5) {
 		glintStateChange(glint_states.bombing)
 		exit;

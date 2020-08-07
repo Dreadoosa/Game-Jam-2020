@@ -6,3 +6,4 @@ keyTimer = 1;
 keyInc = 0;
 guiSurf = surface_create(1000,1000);
 curString = 0;
+timer = 0;

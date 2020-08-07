@@ -6,8 +6,8 @@
   "solid": false,
   "visible": true,
   "spriteMaskId": {
-    "name": "sprCrawlerHitBox",
-    "path": "sprites/sprCrawlerHitBox/sprCrawlerHitBox.yy",
+    "name": "sprBomberAlert",
+    "path": "sprites/sprBomberAlert/sprBomberAlert.yy",
   },
   "persistent": false,
   "parentObjectId": {

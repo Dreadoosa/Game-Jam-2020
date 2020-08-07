@@ -6,7 +6,7 @@ if (other.state != player_states.thrusting
  && other.state != player_states.locked
  ) {
 	 if (other.state == player_states.downed) {
-		 objPlayer.downGauge++;
+		 objPlayer.downGauge+=3;
 		 audio_sound(sfx_playerhurt);
 		 other.hitPoints--;
 	 } else {

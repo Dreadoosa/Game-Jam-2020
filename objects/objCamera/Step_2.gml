@@ -15,15 +15,24 @@ if (room == rmGlintFight) {
 		yy = clamp(yy,0,room_height)
 	}	
 } else {
-	if (instance_exists(actor) && actor != undefined) {
-		xx = lerp(xx,actor.x,lerpC)
-		xx = clamp(xx,0,room_width)
-		yy = lerp(yy,actor.y,lerpC)
-		yy = clamp(yy,0,room_height)
+	if (instance_exists(objGlintCutSceneStart) && !objGlintCutSceneStart.canStart) {
+			xx = lerp(xx,objGlintCutSceneStart.x,lerpC)
+			xx = clamp(xx,0,room_width)
+			yy = lerp(yy,objGlintCutSceneStart.y,lerpC)
+			yy = clamp(yy,0,room_height)		
+	} else {
+		if (instance_exists(actor) && actor != undefined) {
+			xx = lerp(xx,actor.x,lerpC)
+			xx = clamp(xx,0,room_width)
+			yy = lerp(yy,actor.y,lerpC)
+			yy = clamp(yy,0,room_height)
+		}
 	}
+	
 }
 
-
+var _cam_x = xx;
+layer_x("Background", _cam_x * 0.5); // Change the background layer name to whatever you use in the room editor
 
 camera_set_view_size(view,view_width,view_height)
 if (instance_exists(actor) && actor == objPlayer) {

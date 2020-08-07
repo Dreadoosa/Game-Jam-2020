@@ -4,6 +4,11 @@ if(image_speed == 0){exit};
 if (sprite_index == sprJunkoNoPowerIntro) {
 hasKey = true;
 }
+if (sprite_index = sprJunkoHang) {
+	image_speed = 0;
+}
+
+
 if (sprite_index == sprJunkoSlash) {
 	if (state == player_states.walking) {
 		if (enemyHeld != undefined) {

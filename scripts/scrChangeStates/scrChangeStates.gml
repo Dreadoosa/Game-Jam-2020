@@ -2,6 +2,9 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function scrChangeStates(newState) {
 	knockTime = 0;
+	if (newState == player_states.hanging) {
+		image_index = 0;
+	}
 	if (newState == player_states.downing){
 		sprite_index = sprJunkoNoPower;
 		image_index = sprite_get_number(sprJunkoNoPower)-1;

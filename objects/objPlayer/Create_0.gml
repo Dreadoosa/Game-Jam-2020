@@ -6,6 +6,7 @@ dir = 1;
 curPeg = undefined;
 grav = 2;
 attacks = 0;
+hsFrame = 0;
 jump = 0;
 thrusts = 1;
 timer = 0;

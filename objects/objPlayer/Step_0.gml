@@ -1,6 +1,7 @@
 /// @description Insert description here
 // You can write your code in this editor
 timer++;
+// STEP EVENT OF THE PLAYER OR SOME CONTROLLER OBJECT
 if (tBuff > 0){tBuff--;}
 if (aBuff > 0){aBuff--;}
 if (!ds_list_empty(objGUI.sentences)) {
@@ -26,6 +27,8 @@ knockx = scrApproachZero(knockx,.5)
 objGUI.keyInc = 0;
 image_angle = 0;
 function ladder() {
+	image_speed = 1;
+	sprite_index = sprJunkoClimb
 	canGrab = false;
 	timeInState++;
 	if (place_meeting(x,y,objLadder)) {
@@ -125,6 +128,7 @@ function walking() {
 		} else {
 		jump = jspd;
 		}
+		hitSpark(x,y+16,spark_jumpdust,1);
 		scrChangeStates(player_states.inair)
 		exit;
 	}
@@ -196,6 +200,7 @@ function standing() {
 		} else {
 		jump = jspd;
 		}
+		hitSpark(x,y+16,spark_jumpdust,1);
 		scrChangeStates(player_states.inair)
 	}
 	if (!place_meeting(x,y+1,objWall)) {
@@ -209,6 +214,7 @@ function standing() {
 		} else {
 		jump = jspd;
 		}
+		hitSpark(x,y+16,spark_jumpdust,1);
 		scrChangeStates(player_states.inair)
 	}
 }
@@ -423,9 +429,11 @@ function inAir() {
 			} else {
 				if (action_script_left() || action_script_right()) {
 				scrChangeStates(player_states.walking)
+				hitSpark(x,y+16,spark_jumpdust,1);
 				exit;
 				} else {
 				scrChangeStates(player_states.standing)
+				hitSpark(x,y+16,spark_jumpdust,1);
 				exit;
 				}
 			}
@@ -541,7 +549,7 @@ function thrusting() {
 			}			
 		}
 		var inst = instance_place(x,y,objEnemy);
-		if (inst != noone && inst.disabled) {
+		if (inst != noone && inst.disabled) {	
 		audio_sound(sfx_thrust_hit)
 			if (place_meeting(x,y,objEnemy)) {
 				thrustDist = 0;
@@ -549,6 +557,7 @@ function thrusting() {
 				var inst = instance_place(x,y,objEnemy);
 				inst.x = x + 32*image_xscale;
 				inst.y = y;
+				with(inst){hitSpark(x,y,spark_thrust,1)}
 				inst.knockx = 0;
 				inst.knocky = 0;
 				inst.locked = true;
@@ -564,6 +573,7 @@ function thrusting() {
 				thrustDist = 0;
 				spd = 1.5;
 				var inst = instance_place(x,y,objGlintFight);
+				with(inst){hitSpark(x,y,spark_thrust,1)}
 				inst.x = x + 32*image_xscale;
 				inst.y = y;
 				inst.caught = true;
@@ -584,6 +594,19 @@ function locking() {
 			}
 		}
 	}
+	if (action_script_attack()) {
+		var isEn = false;
+		with(objEnemy) {
+			if (locked) {
+			isEn = true;
+			}
+		}
+		if (isEn) {
+			//hitSpark(x,y+8,spark_overcharge_busy,1);
+		}
+	}
+	
+	
 	if (action_script_up() && !place_meeting(x,y,objDoor) && !place_meeting(x,y,objGlintFight))  {
 		var en = undefined;
 		with (objEnemy) {
@@ -627,7 +650,7 @@ function chucking() {
 			jump = -18;
 		} else if (action_script_left() || action_script_right()) {
 			enemyHeld.knockx = 9 * image_xscale;
-			enemyHeld.grav = 0;
+			//enemyHeld.grav = 0;
 			enemyHeld.gravTime = 20;
 			if (!place_meeting(x,y+1,objWall)) {
 			knockx = 10 * -image_xscale;
@@ -714,7 +737,7 @@ function downed() {
 		downGauge += 1;
 		audio_sound_alt(sfx_windup);
 	}
-	if (downGauge == 15) {
+	if (downGauge >= 15) {
 		energyGauge = 150;
 		downGauge = 0;
 		scrChangeStates(player_states.standing)
@@ -751,6 +774,7 @@ function swinging() {
 	
 }
 function hanging() {
+	sprite_index = sprJunkoHang;
 	if (action_script_jump()) {
 		jump = jspd;
 		grav = 2;
@@ -786,7 +810,7 @@ function downing() {
 	
 }
 
-if (timer % 16 == 0 && state != player_states.windingUp && state != player_states.thrusting) {
+if (timer % 16 == 0 && state != player_states.windingUp && state != player_states.thrusting && state != player_states.locked) {
 	if (energyGauge > 0) {
 	energyGauge--
 	} else {

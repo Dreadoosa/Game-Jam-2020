@@ -7,6 +7,7 @@ draw_clear_alpha(c_white,0)
 draw_sprite(sprChargeBar,objPlayer.gearCharge,90,340)
 draw_sprite(sprRevKey,keyTimer,25,340)
 draw_sprite(sprEnergyBox,0,80,25);
+draw_text(500,50,round(timer/60))
 for (var i = 0; i < objPlayer.hitPoints; i++) {
 		draw_sprite(sprHeart,0,32 + i*32,25)
 }
@@ -60,3 +61,4 @@ draw_surface_ext(guiSurf,0,0,objCamera.window_scale,objCamera.window_scale,0,c_w
 	guiSurf = surface_create(1000,1000);
 
 }
+timer++;

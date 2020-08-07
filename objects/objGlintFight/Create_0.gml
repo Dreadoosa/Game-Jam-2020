@@ -52,3 +52,9 @@ freq1 = 0.1;
 
 state = glint_states.floating;
 previousState = state;
+with (objMusic) {
+	if (!audio_is_playing(The_Big_Bad__Glint_Boss_Theme_)) {
+		audio_play_sound_on(global.emitter,The_Big_Bad__Glint_Boss_Theme_,true,0)
+	}
+
+}
